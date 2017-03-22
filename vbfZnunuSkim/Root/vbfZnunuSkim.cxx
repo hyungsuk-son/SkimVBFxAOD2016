@@ -8,6 +8,9 @@
 // Infrastructure include(s):
 #include "xAODRootAccess/tools/Message.h"
 
+// ASG status code check
+#include <AsgTools/MessageCheck.h>
+
 // EDM includes:
 #include "xAODEventInfo/EventInfo.h"
 #include "xAODBase/IParticle.h"
@@ -26,19 +29,6 @@ struct DescendingPt:std::function<bool(const xAOD::IParticle*, const xAOD::IPart
     return l->pt() > r->pt();
   }
 };
-
-
-
-// Helper macro for checking xAOD::TReturnCode return values
-#define EL_RETURN_CHECK( CONTEXT, EXP )                     \
-  do {                                                     \
-    if( ! EXP.isSuccess() ) {                             \
-      Error( CONTEXT,                                    \
-          XAOD_MESSAGE( "Failed to execute: %s" ),    \
-#EXP );                                     \
-      return EL::StatusCode::FAILURE;                    \
-    }                                                     \
-  } while( false )
 
 
 
@@ -72,8 +62,11 @@ EL::StatusCode vbfZnunuSkim :: setupJob (EL::Job& job)
 
   job.useXAOD ();
   xAOD::Init().ignore(); // call before opening first file
-  //  CP::CorrectionCode::enableFailure();
-  EL_RETURN_CHECK( "setupJob()", xAOD::Init() ); // call before opening first file
+
+  ANA_CHECK_SET_TYPE (EL::StatusCode); // set type of return code you are expecting (add to top of each function once)
+
+  ANA_CHECK(xAOD::Init());
+
 
 
   // Output
@@ -257,6 +250,8 @@ EL::StatusCode vbfZnunuSkim :: initialize ()
   // you create here won't be available in the output if you have no
   // input events.
 
+  ANA_CHECK_SET_TYPE (EL::StatusCode); // set type of return code you are expecting (add to top of each function once)
+
   //----------------------------
   // Event information
   //--------------------------- 
@@ -277,7 +272,7 @@ EL::StatusCode vbfZnunuSkim :: initialize ()
 
   // output file
   file_xAOD = wk()->getOutputFile ("mini-xAOD");
-  EL_RETURN_CHECK("initialize()", m_event->writeTo(file_xAOD));
+  ANA_CHECK(m_event->writeTo(file_xAOD));
 
   // check if the event is data or MC
   // (many tools are applied either to data or MC)
@@ -289,10 +284,10 @@ EL::StatusCode vbfZnunuSkim :: initialize ()
 
   // tools to store the meta data in the output mini-xAOD
   m_fileMetaDataTool = new xAODMaker::FileMetaDataTool("FileMetaDataTool");
-  EL_RETURN_CHECK("initialize()", m_fileMetaDataTool->initialize());
+  ANA_CHECK(m_fileMetaDataTool->initialize());
 
   m_triggerMenuMetaDataTool = new xAODMaker::TriggerMenuMetaDataTool("TriggerMenuMetaDataTool");
-  EL_RETURN_CHECK("initialize()", m_triggerMenuMetaDataTool->initialize());
+  ANA_CHECK(m_triggerMenuMetaDataTool->initialize());
 
 
   // JES Calibration (https://twiki.cern.ch/twiki/bin/view/AtlasProtected/JetEtmissRecommendations2016)
@@ -304,11 +299,11 @@ EL::StatusCode vbfZnunuSkim :: initialize ()
   //Call the constructor. The default constructor can also be used if the arguments are set with python configuration instead
   //Initialize the tool
   m_jetCalibration = new JetCalibrationTool(name_JetCalibTools.c_str());
-  EL_RETURN_CHECK("initialize()",m_jetCalibration->setProperty("JetCollection", jetAlgo.c_str()));
-  EL_RETURN_CHECK("initialize()",m_jetCalibration->setProperty("ConfigFile", config.c_str()));
-  EL_RETURN_CHECK("initialize()",m_jetCalibration->setProperty("CalibSequence", calibSeq.c_str()));
-  EL_RETURN_CHECK("initialize()",m_jetCalibration->setProperty("IsData", m_isData));
-  EL_RETURN_CHECK("initialize()",m_jetCalibration->initialize());
+  ANA_CHECK(m_jetCalibration->setProperty("JetCollection", jetAlgo.c_str()));
+  ANA_CHECK(m_jetCalibration->setProperty("ConfigFile", config.c_str()));
+  ANA_CHECK(m_jetCalibration->setProperty("CalibSequence", calibSeq.c_str()));
+  ANA_CHECK(m_jetCalibration->setProperty("IsData", m_isData));
+  ANA_CHECK(m_jetCalibration->initialize());
 
 
 
@@ -370,6 +365,7 @@ EL::StatusCode vbfZnunuSkim :: execute ()
   // histograms and trees.  This is where most of your actual analysis
   // code will go.
 
+  ANA_CHECK_SET_TYPE (EL::StatusCode); // set type of return code you are expecting (add to top of each function once)
 
   //----------------------------
   // Event information
@@ -460,39 +456,39 @@ EL::StatusCode vbfZnunuSkim :: execute ()
 
 
   if (!m_isData) {
-    EL_RETURN_CHECK("execute()", m_event->copy("TruthEvents"));
-    EL_RETURN_CHECK("execute()", m_event->copy("AntiKt4TruthJets"));
-    EL_RETURN_CHECK("execute()", m_event->copy("MET_Truth"));
-    EL_RETURN_CHECK("execute()", m_event->copy("EXOT5TruthNeutrinos"));
-    EL_RETURN_CHECK("execute()", m_event->copy("EXOT5TruthMuons"));
-    EL_RETURN_CHECK("execute()", m_event->copy("EXOT5TruthElectrons"));
-    EL_RETURN_CHECK("execute()", m_event->copy("TruthTaus"));
-    EL_RETURN_CHECK("execute()", m_event->copy("TruthParticles"));
+    ANA_CHECK(m_event->copy("TruthEvents"));
+    ANA_CHECK(m_event->copy("AntiKt4TruthJets"));
+    ANA_CHECK(m_event->copy("MET_Truth"));
+    ANA_CHECK(m_event->copy("EXOT5TruthNeutrinos"));
+    ANA_CHECK(m_event->copy("EXOT5TruthMuons"));
+    ANA_CHECK(m_event->copy("EXOT5TruthElectrons"));
+    ANA_CHECK(m_event->copy("TruthTaus"));
+    ANA_CHECK(m_event->copy("TruthParticles"));
   }
 
-  EL_RETURN_CHECK("execute()", m_event->copy("EventInfo"));
-  EL_RETURN_CHECK("execute()", m_event->copy("PrimaryVertices"));
-  EL_RETURN_CHECK("execute()", m_event->copy("Kt4EMTopoEventShape"));
-  EL_RETURN_CHECK("execute()", m_event->copy("AntiKt4EMTopoJets"));
-  EL_RETURN_CHECK("execute()", m_event->copy("Muons"));
-  EL_RETURN_CHECK("execute()", m_event->copy("Electrons"));
-  EL_RETURN_CHECK("execute()", m_event->copy("Photons"));
-  EL_RETURN_CHECK("execute()", m_event->copy("TauJets"));
-  EL_RETURN_CHECK("execute()", m_event->copy("METAssoc_AntiKt4EMTopo"));
-  EL_RETURN_CHECK("execute()", m_event->copy("MET_Core_AntiKt4EMTopo"));
-  EL_RETURN_CHECK("execute()", m_event->copy("egammaClusters"));
-  EL_RETURN_CHECK("execute()", m_event->copy("GSFTrackParticles"));
-  EL_RETURN_CHECK("execute()", m_event->copy("GSFConversionVertices"));
-  EL_RETURN_CHECK("execute()", m_event->copy("InDetTrackParticles"));
-  EL_RETURN_CHECK("execute()", m_event->copy("CombinedMuonTrackParticles"));
-  EL_RETURN_CHECK("execute()", m_event->copy("ExtrapolatedMuonTrackParticles"));
-  EL_RETURN_CHECK("execute()", m_event->copy("xTrigDecision"));
-  EL_RETURN_CHECK("execute()", m_event->copy("TrigNavigation"));
-  EL_RETURN_CHECK("execute()", m_event->copy("TrigConfKeys"));
-  EL_RETURN_CHECK("execute()", m_event->copy("HLT_xAOD__MuonContainer_MuonEFInfo"));
-  EL_RETURN_CHECK("execute()", m_event->copy("HLT_xAOD__ElectronContainer_egamma_Electrons"));
-  EL_RETURN_CHECK("execute()", m_event->copy("BTagging_AntiKt4EMTopo"));
-  EL_RETURN_CHECK("execute()", m_event->copy("MET_Track"));
+  ANA_CHECK(m_event->copy("EventInfo"));
+  ANA_CHECK(m_event->copy("PrimaryVertices"));
+  ANA_CHECK(m_event->copy("Kt4EMTopoEventShape"));
+  ANA_CHECK(m_event->copy("AntiKt4EMTopoJets"));
+  ANA_CHECK(m_event->copy("Muons"));
+  ANA_CHECK(m_event->copy("Electrons"));
+  ANA_CHECK(m_event->copy("Photons"));
+  ANA_CHECK(m_event->copy("TauJets"));
+  ANA_CHECK(m_event->copy("METAssoc_AntiKt4EMTopo"));
+  ANA_CHECK(m_event->copy("MET_Core_AntiKt4EMTopo"));
+  ANA_CHECK(m_event->copy("egammaClusters"));
+  ANA_CHECK(m_event->copy("GSFTrackParticles"));
+  ANA_CHECK(m_event->copy("GSFConversionVertices"));
+  ANA_CHECK(m_event->copy("InDetTrackParticles"));
+  ANA_CHECK(m_event->copy("CombinedMuonTrackParticles"));
+  ANA_CHECK(m_event->copy("ExtrapolatedMuonTrackParticles"));
+  ANA_CHECK(m_event->copy("xTrigDecision"));
+  ANA_CHECK(m_event->copy("TrigNavigation"));
+  ANA_CHECK(m_event->copy("TrigConfKeys"));
+  ANA_CHECK(m_event->copy("HLT_xAOD__MuonContainer_MuonEFInfo"));
+  ANA_CHECK(m_event->copy("HLT_xAOD__ElectronContainer_egamma_Electrons"));
+  ANA_CHECK(m_event->copy("BTagging_AntiKt4EMTopo"));
+  ANA_CHECK(m_event->copy("MET_Track"));
 
   m_event->fill();
 
@@ -525,9 +521,11 @@ EL::StatusCode vbfZnunuSkim :: finalize ()
   // merged.  This is different from histFinalize() in that it only
   // gets called on worker nodes that processed input events.
 
+  ANA_CHECK_SET_TYPE (EL::StatusCode); // set type of return code you are expecting (add to top of each function once)
+
   file_xAOD->cd();
   h_sumOfWeights->Write();
-  EL_RETURN_CHECK("finalize()", m_event->finishWritingTo( file_xAOD ));
+  ANA_CHECK(m_event->finishWritingTo( file_xAOD ));
 
   // File Meta Data Tool
   if(m_fileMetaDataTool){
