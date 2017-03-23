@@ -229,7 +229,7 @@ EL::StatusCode vbfZnunuSkim :: fileExecute ()
 
 
 
-EL::StatusCode vbfZnunuSkim :: changeInput (bool firstFile)
+EL::StatusCode vbfZnunuSkim :: changeInput (bool /*firstFile*/)
 {
   // Here you do everything you need to do when we change input files,
   // e.g. resetting branch addresses on trees.  If you are using
@@ -396,9 +396,8 @@ EL::StatusCode vbfZnunuSkim :: execute ()
   }
 
 
-  // Create copy containers
+  // Create the new container
   xAOD::JetContainer* m_recoJet = new xAOD::JetContainer(SG::VIEW_ELEMENTS); // This is really a DataVector<xAOD::Jet>
-
 
   /// shallow copy for jet calibration tool
   // create a shallow copy of the jets container for MET building
@@ -427,9 +426,19 @@ EL::StatusCode vbfZnunuSkim :: execute ()
 
   } // end for loop over shallow copied jets
 
+
+
+  // Record the objects into the output xAOD:
+  jet_shallowCopy.second->setShallowIO( false ); // true = shallow copy, false = deep copy
+                                                                          // if true should have something like this line somewhere:
+                                                                          // event->copy("AntiKt4EMTopoJets");
+  ANA_CHECK(m_event->record( jet_shallowCopy.first, "ShallowCopiedJets" ));
+  ANA_CHECK(m_event->record( jet_shallowCopy.second, "ShallowCopiedJetsAux." ));
+
   // Delete shallow copy containers
-  delete jet_shallowCopy.first;
-  delete jet_shallowCopy.second;
+  // If you plan to write it out to an output xAOD you can give ownership to TEvent which will then handle deletion for you.
+  //delete jet_shallowCopy.first;
+  //delete jet_shallowCopy.second;
 
 
   // Sort recoJets
@@ -449,7 +458,8 @@ EL::StatusCode vbfZnunuSkim :: execute ()
   // Delete copy containers
   delete m_recoJet;
 
-  bool acceptEvent = passUncalibMonojetCut || passRecoJetCuts;
+  //bool acceptEvent = passUncalibMonojetCut || passRecoJetCuts;
+  bool acceptEvent = passRecoJetCuts;
   if (!acceptEvent){
     return EL::StatusCode::SUCCESS; // go to next event
   }
@@ -469,7 +479,7 @@ EL::StatusCode vbfZnunuSkim :: execute ()
   ANA_CHECK(m_event->copy("EventInfo"));
   ANA_CHECK(m_event->copy("PrimaryVertices"));
   ANA_CHECK(m_event->copy("Kt4EMTopoEventShape"));
-  ANA_CHECK(m_event->copy("AntiKt4EMTopoJets"));
+  //ANA_CHECK(m_event->copy("AntiKt4EMTopoJets"));
   ANA_CHECK(m_event->copy("Muons"));
   ANA_CHECK(m_event->copy("Electrons"));
   ANA_CHECK(m_event->copy("Photons"));
