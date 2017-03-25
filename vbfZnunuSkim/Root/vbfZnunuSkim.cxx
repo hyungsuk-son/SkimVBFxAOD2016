@@ -71,6 +71,7 @@ EL::StatusCode vbfZnunuSkim :: setupJob (EL::Job& job)
 
   // Output
   EL::OutputStream out_xAOD ("mini-xAOD", "xAOD");
+  out_xAOD.options()->setString(EL::OutputStream::optMergeCmd, "xAODMerge -b -m xAODMaker::TriggerMenuMetaDataTool");
   job.outputAdd (out_xAOD);
 
   //EL::OutputStream out_tree ("output_tree");
@@ -88,7 +89,7 @@ EL::StatusCode vbfZnunuSkim :: histInitialize ()
   // trees.  This method gets called before any input files are
   // connected.
 
-  h_sumOfWeights = new TH1D("h_sumOfWeights", "MetaData_EventCount", 6, 0.5, 6.5);
+  h_sumOfWeights = new TH1D("h_sumOfWeights", "MetaData_EventCount", 3, 0.5, 3.5);
   //h_sumOfWeights -> GetXaxis() -> SetBinLabel(1, "sumOfWeights DxAOD");
   //h_sumOfWeights -> GetXaxis() -> SetBinLabel(2, "sumOfWeightsSquared DxAOD");
   //h_sumOfWeights -> GetXaxis() -> SetBinLabel(3, "nEvents DxAOD");
@@ -211,9 +212,6 @@ EL::StatusCode vbfZnunuSkim :: fileExecute ()
 
 
 
-    //Info("execute()", " Event # = %llu, sumOfweights = %f, mcEventWeight = %f", eventInfo->eventNumber(), sumOfWeights, eventInfo->mcEventWeight());
-    //Info("execute()", " Event # = %llu, nEventsProcessed = %d, sumOfweights = %f, sumOfWeightsSquared = %f", eventInfo->eventNumber(), nEventsProcessed, sumOfWeights, sumOfWeightsSquared);
-
     //h_sumOfWeights -> Fill(1, sumOfWeightsDxAOD);
     //h_sumOfWeights -> Fill(2, sumOfWeightsSquaredDxAOD);
     //h_sumOfWeights -> Fill(3, nEventsDxAOD);
@@ -263,14 +261,17 @@ EL::StatusCode vbfZnunuSkim :: initialize ()
 
 
   // Cut values
+  // Jet
   m_uncalibMonoJetPt = 100000.;
   m_monoJetPt = 100000.;
   m_leadingJetPt = 70000.;
   m_subleadingJetPt = 40000.;
   m_Mjj = 180000.;
+  // Lepton
+  m_muonPtCut = 6000.;
 
 
-  // output file
+  // output xAOD
   file_xAOD = wk()->getOutputFile ("mini-xAOD");
   ANA_CHECK(m_event->writeTo(file_xAOD));
 
@@ -289,7 +290,6 @@ EL::StatusCode vbfZnunuSkim :: initialize ()
   m_triggerMenuMetaDataTool = new xAODMaker::TriggerMenuMetaDataTool("TriggerMenuMetaDataTool");
   ANA_CHECK(m_triggerMenuMetaDataTool->initialize());
 
-
   // JES Calibration (https://twiki.cern.ch/twiki/bin/view/AtlasProtected/JetEtmissRecommendations2016)
   const std::string name_JetCalibTools = "JetCalibTools";
   std::string jetAlgo = "AntiKt4EMTopo"; //String describing your jet collection, for example AntiKt4EMTopo or AntiKt4LCTopo
@@ -304,6 +304,13 @@ EL::StatusCode vbfZnunuSkim :: initialize ()
   ANA_CHECK(m_jetCalibration->setProperty("CalibSequence", calibSeq.c_str()));
   ANA_CHECK(m_jetCalibration->setProperty("IsData", m_isData));
   ANA_CHECK(m_jetCalibration->initialize());
+
+
+  // Initialize the muon calibration and smearing tool
+  m_muonCalibrationAndSmearingTool = new CP::MuonCalibrationAndSmearingTool( "MuonCorrectionTool" );
+  //m_muonCalibrationAndSmearingTool->msg().setLevel( MSG::DEBUG );
+  m_muonCalibrationAndSmearingTool->msg().setLevel( MSG::INFO );
+  ANA_CHECK(m_muonCalibrationAndSmearingTool->initialize());
 
 
 
@@ -396,8 +403,12 @@ EL::StatusCode vbfZnunuSkim :: execute ()
   }
 
 
-  // Create the new container
-  xAOD::JetContainer* m_recoJet = new xAOD::JetContainer(SG::VIEW_ELEMENTS); // This is really a DataVector<xAOD::Jet>
+  /// deep copy
+  // create the new container and its auxiliary store.
+  xAOD::JetContainer* m_recoJet = new xAOD::JetContainer();
+  xAOD::AuxContainerBase* m_recoJetAux = new xAOD::AuxContainerBase();
+  m_recoJet->setStore( m_recoJetAux ); //< Connect the two
+
 
   /// shallow copy for jet calibration tool
   // create a shallow copy of the jets container for MET building
@@ -416,29 +427,31 @@ EL::StatusCode vbfZnunuSkim :: execute ()
     if ( !m_jetCalibration->applyCalibration(*jets).isSuccess() ){
       Error("execute()", "Failed to apply calibration to Jet objects. Exiting." );
       return EL::StatusCode::FAILURE;
-      }
-      
+    }
+
     //Info("execute()", "  calibrated jet pt = %.2f GeV", jets->pt() * 0.001);
 
     xAOD::Jet* newJet = new xAOD::Jet();
-    newJet->makePrivateStore(*jets);
+    //newJet->makePrivateStore(*jets);
     m_recoJet->push_back( newJet );
+    *newJet = *jets;
 
   } // end for loop over shallow copied jets
 
 
 
-  // Record the objects into the output xAOD:
+  // Record the objects into the output xAOD
+  /*
   jet_shallowCopy.second->setShallowIO( false ); // true = shallow copy, false = deep copy
                                                                           // if true should have something like this line somewhere:
                                                                           // event->copy("AntiKt4EMTopoJets");
   ANA_CHECK(m_event->record( jet_shallowCopy.first, "ShallowCopiedJets" ));
   ANA_CHECK(m_event->record( jet_shallowCopy.second, "ShallowCopiedJetsAux." ));
-
+  */
   // Delete shallow copy containers
   // If you plan to write it out to an output xAOD you can give ownership to TEvent which will then handle deletion for you.
-  //delete jet_shallowCopy.first;
-  //delete jet_shallowCopy.second;
+  delete jet_shallowCopy.first;
+  delete jet_shallowCopy.second;
 
 
   // Sort recoJets
@@ -457,12 +470,73 @@ EL::StatusCode vbfZnunuSkim :: execute ()
 
   // Delete copy containers
   delete m_recoJet;
+  delete m_recoJetAux;
 
   //bool acceptEvent = passUncalibMonojetCut || passRecoJetCuts;
   bool acceptEvent = passRecoJetCuts;
   if (!acceptEvent){
     return EL::StatusCode::SUCCESS; // go to next event
   }
+
+
+  //------------
+  // MUONS
+  //------------
+
+  /// full copy 
+  // get muon container of interest
+  const xAOD::MuonContainer* m_muons(0);
+  if ( !m_event->retrieve( m_muons, "Muons" ).isSuccess() ){ /// retrieve arguments: container$
+    Error("execute()", "Failed to retrieve Muons container. Exiting." );
+    return EL::StatusCode::FAILURE;
+  }
+
+  /// deep copy
+  // create the new container and its auxiliary store.
+  xAOD::MuonContainer* m_goodMuons = new xAOD::MuonContainer();
+  xAOD::AuxContainerBase* m_goodMuonsAux = new xAOD::AuxContainerBase();
+  m_goodMuons->setStore( m_goodMuonsAux ); //< Connect the two
+
+  /// shallow copy for muon calibration and smearing tool
+  // create a shallow copy of the muons container for MET building
+  std::pair< xAOD::MuonContainer*, xAOD::ShallowAuxContainer* > muons_shallowCopy = xAOD::shallowCopyContainer( *m_muons );
+  xAOD::MuonContainer* muonSC = muons_shallowCopy.first;
+
+  // iterate over our shallow copy
+  for (const auto& muon : *muonSC) { // C++11 shortcut
+
+    //Info("execute()", " Uncablibrated muon = %.3f GeV", muon->pt() * 0.001);
+
+    // Copy original muon
+    xAOD::Muon* uncalib_muon = new xAOD::Muon();
+    *uncalib_muon = *muon;
+
+    // Muon Calibration
+    if (!m_isData){
+      if(m_muonCalibrationAndSmearingTool->applyCorrection(*muon) == CP::CorrectionCode::Error){ // apply correction and check return code
+        Error("execute()", "MuonCalibrationAndSmearingTool returns Error CorrectionCode");
+      }
+    }
+    //Info("execute()", " Cablibrated muon = %.3f GeV", muon->pt() * 0.001);
+
+    if (muon->pt() > m_muonPtCut ) {
+      m_goodMuons->push_back( uncalib_muon ); // muon acquires the goodMuons auxstore
+    }
+
+  } // end for loop over shallow copied muons
+
+  // Delete shallow copy containers
+  delete muons_shallowCopy.first;
+  delete muons_shallowCopy.second;
+
+  // Record the objects into the output xAOD:
+  // Note that TEvent takes owership of the below objects recorded in it, so you must not delete the containers that you successfully recorded into TEvent.
+  //ANA_CHECK(m_event->record( m_goodMuons, "GoodMuons" ));
+  //ANA_CHECK(m_event->record( m_goodMuonsAux, "GoodMuonsAux." ));
+
+  // Delete deep copy containers
+  delete m_goodMuons;
+  delete m_goodMuonsAux;
 
 
   if (!m_isData) {
@@ -479,7 +553,7 @@ EL::StatusCode vbfZnunuSkim :: execute ()
   ANA_CHECK(m_event->copy("EventInfo"));
   ANA_CHECK(m_event->copy("PrimaryVertices"));
   ANA_CHECK(m_event->copy("Kt4EMTopoEventShape"));
-  //ANA_CHECK(m_event->copy("AntiKt4EMTopoJets"));
+  ANA_CHECK(m_event->copy("AntiKt4EMTopoJets"));
   ANA_CHECK(m_event->copy("Muons"));
   ANA_CHECK(m_event->copy("Electrons"));
   ANA_CHECK(m_event->copy("Photons"));
@@ -493,7 +567,7 @@ EL::StatusCode vbfZnunuSkim :: execute ()
   ANA_CHECK(m_event->copy("CombinedMuonTrackParticles"));
   ANA_CHECK(m_event->copy("ExtrapolatedMuonTrackParticles"));
   ANA_CHECK(m_event->copy("xTrigDecision"));
-  ANA_CHECK(m_event->copy("TrigNavigation"));
+  //ANA_CHECK(m_event->copy("TrigNavigation"));
   ANA_CHECK(m_event->copy("TrigConfKeys"));
   ANA_CHECK(m_event->copy("HLT_xAOD__MuonContainer_MuonEFInfo"));
   ANA_CHECK(m_event->copy("HLT_xAOD__ElectronContainer_egamma_Electrons"));
@@ -555,6 +629,11 @@ EL::StatusCode vbfZnunuSkim :: finalize ()
     m_jetCalibration = 0;
   }
 
+  /// Muon Calibration
+  if(m_muonCalibrationAndSmearingTool){
+    delete m_muonCalibrationAndSmearingTool;
+    m_muonCalibrationAndSmearingTool = 0;
+  }
 
   return EL::StatusCode::SUCCESS;
 }

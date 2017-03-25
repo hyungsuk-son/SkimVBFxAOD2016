@@ -26,9 +26,15 @@
 #include "xAODJet/Jet.h"
 #include "xAODJet/JetContainer.h"
 #include "xAODJet/JetAuxContainer.h"
+#include "xAODMuon/Muon.h"
+#include "xAODMuon/MuonContainer.h"
+#include "xAODMuon/MuonAuxContainer.h"
 
 // Jet
 #include "JetCalibTools/JetCalibrationTool.h"
+
+// Muon
+#include "MuonMomentumCorrections/MuonCalibrationAndSmearingTool.h"
 
 // Metadata
 #include "xAODMetaDataCnv/FileMetaDataTool.h"
@@ -59,20 +65,22 @@ public:
   xAODMaker::FileMetaDataTool *m_fileMetaDataTool; //!
   xAODMaker::TriggerMenuMetaDataTool *m_triggerMenuMetaDataTool; //!
 
-  TFile* fOut; //!
-  float mcEventWeight; //!
-
 
   // Cut values
+  // Jet
   float m_uncalibMonoJetPt; //!
   float m_monoJetPt; //!
   float m_leadingJetPt; //!
   float m_subleadingJetPt; //!
   float m_Mjj; //!
+  // Lepton
+  float m_muonPtCut; //!
 
   // Jet
   JetCalibrationTool* m_jetCalibration; //!
 
+  // Muon
+  CP::MuonCalibrationAndSmearingTool *m_muonCalibrationAndSmearingTool; //!
 
   // this is a standard constructor
   vbfZnunuSkim ();

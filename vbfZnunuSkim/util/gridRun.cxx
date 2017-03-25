@@ -39,9 +39,10 @@ int main( int argc, char* argv[] ) {
   // If you want to use grid datasets the easiest option for discovery is scanDQ2
 //  SH::scanDQ2 (sh, "data15_13TeV.00270816.physics_Main.merge.AOD.f611_m1463");
   // If you know the name of all your grid datasets you can also skip the dq2-ls step and add the datasets directly
-//  SH::addGrid (sh, "data15_13TeV.00281411.physics_Main.merge.AOD.f629_m1504");
-  //SH::addGrid (sh, "data15_13TeV.00282784.physics_Main.merge.AOD.f640_m1511");
-  SH::addGrid (sh, "mc15_13TeV.363406.Sherpa_NNPDF30NNLO_Zee_Pt1000_2000_CVetoBVeto.merge.DAOD_EXOT5.e4716_s2726_r7326_r6282_p2495");
+  //SH::addGrid (sh, "data16_13TeV.00311365.physics_Main.merge.DAOD_EXOT5.f758_m1710_p2950");
+  //SH::addGrid (sh, "mc15_13TeV.363406.Sherpa_NNPDF30NNLO_Zee_Pt1000_2000_CVetoBVeto.merge.DAOD_EXOT5.e4716_s2726_r7326_r6282_p2495");
+  //SH::addGrid (sh, "mc15_13TeV.364152.Sherpa_221_NNPDF30NNLO_Znunu_MAXHTPTV280_500_CFilterBVeto.merge.DAOD_EXOT5.e5308_s2726_r7772_r7676_p2949");
+  SH::addGrid (sh, "mc15_13TeV.364122.Sherpa_221_NNPDF30NNLO_Zee_MAXHTPTV140_280_BFilter.merge.DAOD_EXOT5.e5299_s2726_r7772_r7676_p2949");
 
   // Set the name of the input TTree. It's always "CollectionTree"
   // for xAOD files.
@@ -86,14 +87,14 @@ int main( int argc, char* argv[] ) {
   EL::PrunDriver driver;  //grid
 //  EL::GridDriver driver; //grid in the background
 
-  driver.options()->setString("nc_outputSampleName", "user.hson.xAOD.skim.03062017rerere.%in:name[2]%.%in:name[6]%"); //For PrunDriver
+  driver.options()->setString("nc_outputSampleName", "user.hson.xAOD.skim.03252017mc2.%in:name[2]%.%in:name[6]%"); //For PrunDriver
 //  driver.outputSampleName = "user.hson.gridtest1.11142015.%in:name[2]%.%in:name[6]%"; //For GridDriver
-  driver.options()->setDouble("nc_nFiles", 1); // FOR TESTING!
+  driver.options()->setDouble("nc_nFiles", 2); // FOR TESTING!
 //  driver.options()->setDouble("nc_nFilesPerJob", 1);
 //  driver.options()->setDouble(EL::Job::optGridNFilesPerJob, 1);
 //  driver.options()->setString("nc_excludedSite", "ANALY_SCINET,ANALY_VICTORIA,ANALY_CERN_CLOUD,ANALY_IN2P3-CC,ANALY_LAPP,ANALY_CONNECT_SHORT,ANALY_SFU,ANALY_CONNECT,ANALY_RAL_SL6,ANALY_GRIF-LPNHE,ANALY_HU_ATLAS_Tier2,ANALY_OU_OCHEP_SWT2,ANALY_IFIC,ANALY_ECDF_SL6");
 //  driver.options()->setString("nc_excludedSite", "ANALY_INFN-NAPOLI-RECAS,ANALY_INFN-NAPOLI,ANALY_DESY-HH,ANALY_GRIF-IRFU,ANALY_AUSTRALIA,ANALY_SFU,ANALY_SCINET,ANALY_CPPM,ANALY_SiGNET,ANALY_LPC,ANALY_NSC,ANALY_CONNECT,ANALY_MWT2_SL6,ANALY_BU_ATLAS_Tier2_SL6,ANALY_wuppertalprod,ANALY_ARNES,ANALY_SLAC_SHORT_1HR,ANALY_SLAC,ANALY_RAL_SL6,ANALY_INFN-MILANO-ATLASC");
-  driver.options()->setString("nc_excludedSite", "ANALY_TRIUMF");
+//  driver.options()->setString("nc_excludedSite", "ANALY_TRIUMF");
 //  driver.options()->setString("nc_site", "ANALY_CERN_SHORT,ANALY_CERN_SLC6,ANALY_PIC_SL6,ANALY_SARA"); // The Reflex dictionary build only works on a few sites
 //  driver.options()->setString("nc_site", "ANALY_CERN_SLC6"); // The Reflex dictionary build only works on a few sites
 //  driver.options()->setDouble(EL::Job::optGridMemory,10240); // 10 GB
