@@ -64,7 +64,6 @@ EL::StatusCode vbfZnunuSkim :: setupJob (EL::Job& job)
   xAOD::Init().ignore(); // call before opening first file
 
   ANA_CHECK_SET_TYPE (EL::StatusCode); // set type of return code you are expecting (add to top of each function once)
-
   ANA_CHECK(xAOD::Init());
 
 
@@ -313,8 +312,7 @@ EL::StatusCode vbfZnunuSkim :: initialize ()
   ANA_CHECK(m_muonCalibrationAndSmearingTool->initialize());
 
 
-
-
+/*
   if (!m_isData) {
     m_event->setAuxItemList("AntiKt4EMTopoJetsAux.", "pt.eta.phi.m.constituentLinks.constituentWeights.ConstituentScale.JetEMScaleMomentum_pt.JetEMScaleMomentum_eta.JetEMScaleMomentum_phi.JetEMScaleMomentum_m.JetConstitScaleMomentum_pt.JetConstitScaleMomentum_eta.JetConstitScaleMomentum_phi.JetConstitScaleMomentum_m.InputType.AlgorithmType.SizeParameter.btaggingLink.EnergyPerSampling.NumTrkPt500.SumPtTrkPt500.EMFrac.Width.LeadingClusterSecondR.Mu12.N90Constituents.NegativeE.NumTrkPt1000.OotFracClusters10.OotFracClusters5.OriginCorrected.OriginVertex.PartonTruthLabelID.PileupCorrected.PlanarFlow.Sphericity.Split12.Split23.Split34.SumPtTrkPt1000.Tau1.Tau1_wta.Tau2.Tau2_wta.Tau3.Tau3_wta.ThrustMaj.ThrustMin.Timing.TrackWidthPt1000.TrackWidthPt500.TruthLabelDeltaR_B.TruthLabelDeltaR_C.TruthLabelDeltaR_T.WidthPhi.ZCut12.ZCut23.ZCut34.ActiveArea.ActiveArea4vec_eta.ActiveArea4vec_m.ActiveArea4vec_phi.ActiveArea4vec_pt.Angularity.Aplanarity.AverageLArQF.BchCorrCell.CentroidR.Charge.ConeExclBHadronsFinal.ConeExclCHadronsFinal.ConeExclTausFinal.ConeTruthLabelID.DetectorEta.Dip12.Dip13.Dip23.DipExcl12.ECF1.ECF2.ECF3.ECPSFraction.FoxWolfram0.FoxWolfram1.FoxWolfram2.FoxWolfram3.FoxWolfram4.FracSamplingMax.FracSamplingMaxIndex.GhostAntiKt2TrackJet.GhostAntiKt2TrackJetCount.GhostAntiKt2TrackJetPt.GhostAntiKt3TrackJet.GhostAntiKt3TrackJetCount.GhostAntiKt3TrackJetPt.GhostAntiKt4TrackJet.GhostAntiKt4TrackJetCount.GhostAntiKt4TrackJetPt.GhostBHadronsFinal.GhostBHadronsFinalCount.GhostBHadronsFinalPt.GhostBHadronsInitial.GhostBHadronsInitialCount.GhostBHadronsInitialPt.GhostBQuarksFinal.GhostBQuarksFinalCount.GhostBQuarksFinalPt.GhostCHadronsFinal.GhostCHadronsFinalCount.GhostCHadronsFinalPt.GhostCHadronsInitial.GhostCHadronsInitialCount.GhostCHadronsInitialPt.GhostCQuarksFinal.GhostCQuarksFinalCount.GhostCQuarksFinalPt.GhostHBosons.GhostHBosonsCount.GhostHBosonsPt.GhostMuonSegment.GhostMuonSegmentCount.GhostPartons.GhostPartonsCount.GhostPartonsPt.GhostTQuarksFinal.GhostTQuarksFinalCount.GhostTQuarksFinalPt.GhostTausFinal.GhostTausFinalCount.GhostTausFinalPt.GhostTrack.GhostTrackCount.GhostTrackPt.GhostTruth.GhostTruthAssociationFraction.GhostTruthAssociationLink.GhostTruthCount.GhostTruthPt.GhostWBosons.GhostWBosonsCount.GhostWBosonsPt.GhostZBosons.GhostZBosonsCount.GhostZBosonsPt.HECFrac.HECQuality.HadronConeExclTruthLabelID.HighestJVFVtx.IsoDelta2SumPt.IsoDelta3SumPt.JVF.JetGhostArea.JetLCScaleMomentum_eta.JetLCScaleMomentum_m.JetLCScaleMomentum_phi.JetLCScaleMomentum_pt.JetOriginConstitScaleMomentum_eta.JetOriginConstitScaleMomentum_m.JetOriginConstitScaleMomentum_phi.JetOriginConstitScaleMomentum_pt.JetPileupScaleMomentum_eta.JetPileupScaleMomentum_m.JetPileupScaleMomentum_phi.JetPileupScaleMomentum_pt.Jvt.JvtJvfcorr.JvtRpt.KtDR.LArBadHVEnergyFrac.LArBadHVNCell.LArQuality.LeadingClusterCenterLambda.LeadingClusterPt.LeadingClusterSecondLambda"); 
     m_event->setAuxItemList("MuonsAux.", "pt.eta.phi.muonSegmentLinks.charge.EnergyLoss.numberOfPrecisionHoleLayers.numberOfPrecisionLayers.truthParticleLink.etcone20.ptcone20.ptcone30.ptcone40.ptvarcone20.ptvarcone30.ptvarcone40.topoetcone20.topoetcone30.topoetcone40.truthOrigin.truthType.author.inDetTrackParticleLink.muonType.CaloLRLikelihood.CaloMuonIDTag.DFCommonGoodMuon.EnergyLossSigma.MeasEnergyLoss.MeasEnergyLossSigma.ParamEnergyLoss.ParamEnergyLossSigmaMinus.ParamEnergyLossSigmaPlus.clusterLink.combinedTrackOutBoundsPrecisionHits.combinedTrackParticleLink.energyLossType.etcone30.etcone40.extendedClosePrecisionHits.extendedLargeHits.extendedLargeHoles.extendedOutBoundsPrecisionHits.extendedSmallHits.extendedSmallHoles.extrapolatedMuonSpectrometerTrackParticleLink.innerClosePrecisionHits.innerLargeHits.innerLargeHoles.innerOutBoundsPrecisionHits.innerSmallHits.innerSmallHoles.isEndcapGoodLayers.isSmallGoodSectors.middleClosePrecisionHits.middleLargeHits.middleLargeHoles.middleOutBoundsPrecisionHits.middleSmallHits.middleSmallHoles.momentumBalanceSignificance.muonSpectrometerTrackParticleLink.numberOfGoodPrecisionLayers.outerClosePrecisionHits.outerLargeHits.outerLargeHoles.outerOutBoundsPrecisionHits.outerSmallHits.outerSmallHoles.quality"); 
@@ -356,7 +354,7 @@ EL::StatusCode vbfZnunuSkim :: initialize ()
   m_event->setAuxItemList("HLT_xAOD__MuonContainer_MuonEFInfoAux.", "pt.eta.phi");
   m_event->setAuxItemList("HLT_xAOD__ElectronContainer_egamma_ElectronsAux.", "pt.eta.phi");
   m_event->setAuxItemList("BTagging_AntiKt4EMTopo.", "MV2c20_discriminant");
-
+*/
 
 
 
