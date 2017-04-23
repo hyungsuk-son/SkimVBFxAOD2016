@@ -3,6 +3,7 @@
 #include <EventLoop/Worker.h>
 #include <vbfZnunuSkim/vbfZnunuSkim.h>
 
+#include <TSystem.h>
 #include "EventLoop/OutputStream.h"
 
 // Infrastructure include(s):
@@ -289,6 +290,16 @@ EL::StatusCode vbfZnunuSkim :: initialize ()
   m_triggerMenuMetaDataTool = new xAODMaker::TriggerMenuMetaDataTool("TriggerMenuMetaDataTool");
   ANA_CHECK(m_triggerMenuMetaDataTool->initialize());
 
+  // GRL
+  m_grl = new GoodRunsListSelectionTool("GoodRunsListSelectionTool");
+  const char* GRLFilePath = "$ROOTCOREBIN/data/vbfZnunuSkim/data16_13TeV.periodAllYear_DetStatus-v88-pro20-21_DQDefects-00-02-04_PHYS_StandardGRL_All_Good_25ns.xml";
+  const char* fullGRLFilePath = gSystem->ExpandPathName (GRLFilePath);
+  std::vector<std::string> vecStringGRL;
+  vecStringGRL.push_back(fullGRLFilePath);
+  ANA_CHECK(m_grl->setProperty( "GoodRunsListVec", vecStringGRL));
+  ANA_CHECK(m_grl->setProperty("PassThrough", false)); // if true (default) will ignore result of GRL and will just pass all events
+  ANA_CHECK(m_grl->initialize());
+
   // JES Calibration (https://twiki.cern.ch/twiki/bin/view/AtlasProtected/JetEtmissRecommendations2016)
   const std::string name_JetCalibTools = "JetCalibTools";
   std::string jetAlgo = "AntiKt4EMTopo"; //String describing your jet collection, for example AntiKt4EMTopo or AntiKt4LCTopo
@@ -381,9 +392,19 @@ EL::StatusCode vbfZnunuSkim :: execute ()
     return EL::StatusCode::FAILURE;
   }
 
-
   bool passUncalibMonojetCut = false;
   bool passRecoJetCuts = false;
+
+
+  //------
+  // GRL
+  //------
+  // if data check if event passes GRL
+  if(m_isData){ // it's data!
+    if(!m_grl->passRunLB(*eventInfo)){
+      return EL::StatusCode::SUCCESS; // go to next event
+    }
+  } // end if Data
 
 
   //------------
@@ -621,13 +642,19 @@ EL::StatusCode vbfZnunuSkim :: finalize ()
     m_triggerMenuMetaDataTool = 0;
   }
 
-  /// JES Calibration
+  // GRL
+  if (m_grl) {
+    delete m_grl;
+    m_grl = 0;
+  }
+
+  // JES Calibration
   if(m_jetCalibration){
     delete m_jetCalibration;
     m_jetCalibration = 0;
   }
 
-  /// Muon Calibration
+  // Muon Calibration
   if(m_muonCalibrationAndSmearingTool){
     delete m_muonCalibrationAndSmearingTool;
     m_muonCalibrationAndSmearingTool = 0;

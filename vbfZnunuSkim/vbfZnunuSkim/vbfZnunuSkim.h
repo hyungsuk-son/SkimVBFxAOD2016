@@ -30,6 +30,9 @@
 #include "xAODMuon/MuonContainer.h"
 #include "xAODMuon/MuonAuxContainer.h"
 
+// GRL
+#include "GoodRunsLists/GoodRunsListSelectionTool.h"
+
 // Jet
 #include "JetCalibTools/JetCalibrationTool.h"
 
@@ -76,11 +79,15 @@ public:
   // Lepton
   float m_muonPtCut; //!
 
+  // GRL
+  GoodRunsListSelectionTool *m_grl; //!
+
   // Jet
   JetCalibrationTool* m_jetCalibration; //!
 
   // Muon
   CP::MuonCalibrationAndSmearingTool *m_muonCalibrationAndSmearingTool; //!
+
 
   // this is a standard constructor
   vbfZnunuSkim ();
