@@ -52,17 +52,20 @@ int main( int argc, char* argv[] ) {
 
 
   // Data16
-  const char* inputFilePath = gSystem->ExpandPathName ("/cluster/tufts/atlas08/DATA");
-  SH::ScanDir().filePattern("DAOD_EXOT5.10316590._000203.pool.root.1").scan(sh,inputFilePath); // Data16 run311481
+  //const char* inputFilePath = gSystem->ExpandPathName ("/cluster/tufts/atlas08/DATA");
+  //SH::ScanDir().filePattern("DAOD_EXOT5.10316590._000203.pool.root.1").scan(sh,inputFilePath); // Data16 run311481
  
-  // MC15c
-  //const char* inputFilePath = gSystem->ExpandPathName ("/cluster/tufts/atlas08/MCSamples");
+  // MC15c (EXOT5)
+  const char* inputFilePath = gSystem->ExpandPathName ("/cluster/tufts/atlas08/MCSamples");
   //SH::ScanDir().filePattern("DAOD_EXOT5.10531595._000002.pool.root.1").scan(sh,inputFilePath); // Znunu_MAXHTPTV280_500_CFilterBVeto
   //SH::ScanDir().filePattern("DAOD_EXOT5.10531581._000001.pool.root.1").scan(sh,inputFilePath); // Zee_MAXHTPTV140_280_BFilter
   //SH::ScanDir().filePattern("DAOD_EXOT5.09043234._000006.pool.root.1").scan(sh,inputFilePath); // 410000.PowhegPythiaEvtGen_P2012_ttbar_hdamp172p5_nonallhad
   //SH::ScanDir().filePattern("DAOD_EXOT5.08602669._000018.pool.root.1").scan(sh,inputFilePath); // 361025.Pythia8EvtGen_A14NNPDF23LO_jetjet_JZ5W
   //SH::ScanDir().filePattern("DAOD_EXOT5.10531536._000034.pool.root.1").scan(sh,inputFilePath); // 364109.Sherpa_221_NNPDF30NNLO_Zmumu_MAXHTPTV280_500_CVetoBVeto
+  //SH::ScanDir().filePattern("DAOD_EXOT5.10531536._000034.pool.root.1").scan(sh,inputFilePath); // 364109.Zmumu_MAXHTPTV280_500_CVetoBVeto
 
+  // MC15c (STDM4)
+  SH::ScanDir().filePattern("DAOD_STDM4.10349557._000034.pool.root.1").scan(sh,inputFilePath); // 364109.Zmumu_MAXHTPTV280_500_CVetoBVeto
 
   // Set the name of the input TTree. It's always "CollectionTree"
   // for xAOD files.

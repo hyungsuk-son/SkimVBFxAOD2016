@@ -18,6 +18,8 @@
 #include "xAODBase/IParticleContainer.h"
 #include "xAODBase/IParticleHelpers.h"
 #include "AthContainers/ConstDataVector.h"
+#include "xAODMetaData/FileMetaData.h"
+#include "xAODMetaData/FileMetaDataAuxInfo.h"
 
 #include "PATInterfaces/CorrectionCode.h" // to check the return correction code status of tools
 #include "xAODCore/ShallowAuxContainer.h"
@@ -139,6 +141,41 @@ EL::StatusCode vbfZnunuSkim :: fileExecute ()
     return EL::StatusCode::FAILURE;
   }
   MetaData->LoadTree(0);
+
+  ////////////////////////////
+  // To get Derivation info //
+  ////////////////////////////
+
+  //----------------------------
+  // MetaData information
+  //--------------------------- 
+  const xAOD::FileMetaData* fileMetaData = 0;
+  if( ! m_event->retrieveMetaInput( fileMetaData, "FileMetaData").isSuccess() ){
+    Error("fileExecute()", "Failed to retrieve FileMetaData from MetaData. Exiting." );
+    return EL::StatusCode::FAILURE;
+  }
+
+  // Initialize string variable
+  m_dataType = "";
+  // Read dataType from FileMetaData and store it to m_dataType
+  const bool s = fileMetaData->value(xAOD::FileMetaData::dataType, m_dataType);
+
+  if (s) {
+    if ( m_dataType.find("EXOT")!=std::string::npos ) { // SM Derivation (EXOT)
+      std::string temp (m_dataType, 11, 5); // (ex) m_dataType: StreamDAOD_EXOT5
+    m_nameDerivation = temp; // take "EXOT5" in "StreamDAOD_EXOT5"
+    }
+    if ( m_dataType.find("STDM")!=std::string::npos ) { // SM Derivation (STDM)
+      std::string temp (m_dataType, 11, 4); // (ex) m_dataType: StreamDAOD_STDM4
+    m_nameDerivation = temp; // only take "STDM" in "StreamDAOD_STDM4"
+    }
+    std::cout << " data type = " << m_dataType << std::endl;
+    std::cout << " Derivation name = " << m_nameDerivation << std::endl;
+  }
+
+  //////////////////////////
+  // To get Sum of Weight // 
+  //////////////////////////
 
   //check if file is from a DxAOD
   bool m_isDerivation = !MetaData->GetBranch("StreamAOD");
@@ -492,10 +529,12 @@ EL::StatusCode vbfZnunuSkim :: execute ()
   delete m_recoJetAux;
 
   //bool acceptEvent = passUncalibMonojetCut || passRecoJetCuts;
+  /*
   bool acceptEvent = passRecoJetCuts;
   if (!acceptEvent){
     return EL::StatusCode::SUCCESS; // go to next event
   }
+  */
 
 
   //------------
@@ -559,41 +598,58 @@ EL::StatusCode vbfZnunuSkim :: execute ()
 
 
   if (!m_isData) {
-    ANA_CHECK(m_event->copy("TruthEvents"));
-    ANA_CHECK(m_event->copy("AntiKt4TruthJets"));
-    ANA_CHECK(m_event->copy("MET_Truth"));
-    ANA_CHECK(m_event->copy("EXOT5TruthNeutrinos"));
-    ANA_CHECK(m_event->copy("EXOT5TruthMuons"));
-    ANA_CHECK(m_event->copy("EXOT5TruthElectrons"));
-    ANA_CHECK(m_event->copy("TruthTaus"));
-    ANA_CHECK(m_event->copy("TruthParticles"));
+    if (m_nameDerivation == "EXOT5") {
+      ANA_CHECK(m_event->copy("TruthEvents"));
+      ANA_CHECK(m_event->copy("AntiKt4TruthJets"));
+      ANA_CHECK(m_event->copy("MET_Truth"));
+      ANA_CHECK(m_event->copy("EXOT5TruthNeutrinos"));
+      ANA_CHECK(m_event->copy("EXOT5TruthMuons"));
+      ANA_CHECK(m_event->copy("EXOT5TruthElectrons"));
+      ANA_CHECK(m_event->copy("TruthTaus"));
+      ANA_CHECK(m_event->copy("TruthParticles"));
+    }
+    if (m_nameDerivation == "STDM") {
+      ANA_CHECK(m_event->copy("TruthEvents"));
+      ANA_CHECK(m_event->copy("AntiKt4TruthJets"));
+      ANA_CHECK(m_event->copy("AntiKt4TruthWZJets"));
+      ANA_CHECK(m_event->copy("MET_Truth"));
+      ANA_CHECK(m_event->copy("STDMTruthNeutrinos"));
+      ANA_CHECK(m_event->copy("STDMTruthMuons"));
+      ANA_CHECK(m_event->copy("STDMTruthElectrons"));
+      ANA_CHECK(m_event->copy("STDMTruthTaus"));
+      ANA_CHECK(m_event->copy("TruthParticles"));
+    }
   }
 
   ANA_CHECK(m_event->copy("EventInfo"));
   ANA_CHECK(m_event->copy("PrimaryVertices"));
-  ANA_CHECK(m_event->copy("Kt4EMTopoEventShape"));
-  ANA_CHECK(m_event->copy("AntiKt4EMTopoJets"));
-  ANA_CHECK(m_event->copy("Muons"));
-  ANA_CHECK(m_event->copy("Electrons"));
-  ANA_CHECK(m_event->copy("Photons"));
-  ANA_CHECK(m_event->copy("TauJets"));
-  ANA_CHECK(m_event->copy("METAssoc_AntiKt4EMTopo"));
-  ANA_CHECK(m_event->copy("MET_Core_AntiKt4EMTopo"));
-  ANA_CHECK(m_event->copy("egammaClusters"));
-  ANA_CHECK(m_event->copy("GSFTrackParticles"));
-  ANA_CHECK(m_event->copy("GSFConversionVertices"));
-  ANA_CHECK(m_event->copy("InDetTrackParticles"));
-  ANA_CHECK(m_event->copy("CombinedMuonTrackParticles"));
-  ANA_CHECK(m_event->copy("ExtrapolatedMuonTrackParticles"));
+  if (m_nameDerivation == "EXOT5") {
+    ANA_CHECK(m_event->copy("Kt4EMTopoEventShape"));
+    ANA_CHECK(m_event->copy("AntiKt4EMTopoJets"));
+    ANA_CHECK(m_event->copy("Muons"));
+    ANA_CHECK(m_event->copy("Electrons"));
+    ANA_CHECK(m_event->copy("Photons"));
+    ANA_CHECK(m_event->copy("TauJets"));
+    ANA_CHECK(m_event->copy("METAssoc_AntiKt4EMTopo"));
+    ANA_CHECK(m_event->copy("MET_Core_AntiKt4EMTopo"));
+    ANA_CHECK(m_event->copy("egammaClusters"));
+    ANA_CHECK(m_event->copy("GSFTrackParticles"));
+    ANA_CHECK(m_event->copy("GSFConversionVertices"));
+    ANA_CHECK(m_event->copy("InDetTrackParticles"));
+    ANA_CHECK(m_event->copy("CombinedMuonTrackParticles"));
+    ANA_CHECK(m_event->copy("ExtrapolatedMuonTrackParticles"));
+  }
   ANA_CHECK(m_event->copy("xTrigDecision"));
   //ANA_CHECK(m_event->copy("TrigNavigation"));
   ANA_CHECK(m_event->copy("TrigConfKeys"));
-  ANA_CHECK(m_event->copy("HLT_xAOD__MuonContainer_MuonEFInfo"));
-  ANA_CHECK(m_event->copy("HLT_xAOD__ElectronContainer_egamma_Electrons"));
-  ANA_CHECK(m_event->copy("BTagging_AntiKt4EMTopo"));
-  ANA_CHECK(m_event->copy("MET_Track"));
+  if (m_nameDerivation == "EXOT5") {
+    ANA_CHECK(m_event->copy("HLT_xAOD__MuonContainer_MuonEFInfo"));
+    ANA_CHECK(m_event->copy("HLT_xAOD__ElectronContainer_egamma_Electrons"));
+    ANA_CHECK(m_event->copy("BTagging_AntiKt4EMTopo"));
+    ANA_CHECK(m_event->copy("MET_Track"));
+  }
 
-  m_event->fill();
+m_event->fill();
 
 
 

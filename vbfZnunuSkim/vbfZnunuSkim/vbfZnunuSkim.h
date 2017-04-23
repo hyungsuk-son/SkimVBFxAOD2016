@@ -61,6 +61,8 @@ public:
 
   xAOD::TEvent *m_event; //!
   bool m_isData; //!
+  std::string m_dataType; //!
+  std::string m_nameDerivation; //!
 
   TFile *file_xAOD; //!
   TH1 *h_sumOfWeights; //!
