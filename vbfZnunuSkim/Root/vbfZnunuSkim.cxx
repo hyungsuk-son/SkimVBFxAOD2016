@@ -91,6 +91,7 @@ EL::StatusCode vbfZnunuSkim :: histInitialize ()
   // trees.  This method gets called before any input files are
   // connected.
 
+  // Sum of Weight
   h_sumOfWeights = new TH1D("h_sumOfWeights", "MetaData_EventCount", 3, 0.5, 3.5);
   //h_sumOfWeights -> GetXaxis() -> SetBinLabel(1, "sumOfWeights DxAOD");
   //h_sumOfWeights -> GetXaxis() -> SetBinLabel(2, "sumOfWeightsSquared DxAOD");
@@ -99,6 +100,12 @@ EL::StatusCode vbfZnunuSkim :: histInitialize ()
   h_sumOfWeights -> GetXaxis() -> SetBinLabel(2, "sumOfWeightsSquared initial");
   h_sumOfWeights -> GetXaxis() -> SetBinLabel(3, "nEvents initial");
   wk()->addOutput (h_sumOfWeights);
+
+  // Retrieve Derivation name from MetaData
+  h_dataType = new TH1F("h_dataType","dataType",1,0,1);
+  h_dataType->SetCanExtend(TH1::kAllAxes);
+  wk()->addOutput (h_dataType);
+
 
   return EL::StatusCode::SUCCESS;
 }
@@ -161,17 +168,21 @@ EL::StatusCode vbfZnunuSkim :: fileExecute ()
   const bool s = fileMetaData->value(xAOD::FileMetaData::dataType, m_dataType);
 
   if (s) {
-    if ( m_dataType.find("EXOT")!=std::string::npos ) { // SM Derivation (EXOT)
+    if ( m_dataType.find("EXOT")!=std::string::npos ) { // Derivation (EXOT)
       std::string temp (m_dataType, 11, 5); // (ex) m_dataType: StreamDAOD_EXOT5
     m_nameDerivation = temp; // take "EXOT5" in "StreamDAOD_EXOT5"
     }
-    if ( m_dataType.find("STDM")!=std::string::npos ) { // SM Derivation (STDM)
+    if ( m_dataType.find("STDM")!=std::string::npos ) { // Derivation (STDM)
       std::string temp (m_dataType, 11, 4); // (ex) m_dataType: StreamDAOD_STDM4
     m_nameDerivation = temp; // only take "STDM" in "StreamDAOD_STDM4"
     }
     std::cout << " data type = " << m_dataType << std::endl;
     std::cout << " Derivation name = " << m_nameDerivation << std::endl;
   }
+
+  // Save a derivation name in a histogram
+  h_dataType->Fill(m_dataType.c_str(), 1);
+
 
   //////////////////////////
   // To get Sum of Weight // 
@@ -311,6 +322,8 @@ EL::StatusCode vbfZnunuSkim :: initialize ()
   // output xAOD
   file_xAOD = wk()->getOutputFile ("mini-xAOD");
   ANA_CHECK(m_event->writeTo(file_xAOD));
+
+
 
   // check if the event is data or MC
   // (many tools are applied either to data or MC)
@@ -598,7 +611,7 @@ EL::StatusCode vbfZnunuSkim :: execute ()
 
 
   if (!m_isData) {
-    if (m_nameDerivation == "EXOT5") {
+    if ( m_dataType.find("EXOT")!=std::string::npos ) { // Derivation (EXOT)
       ANA_CHECK(m_event->copy("TruthEvents"));
       ANA_CHECK(m_event->copy("AntiKt4TruthJets"));
       ANA_CHECK(m_event->copy("MET_Truth"));
@@ -608,7 +621,7 @@ EL::StatusCode vbfZnunuSkim :: execute ()
       ANA_CHECK(m_event->copy("TruthTaus"));
       ANA_CHECK(m_event->copy("TruthParticles"));
     }
-    if (m_nameDerivation == "STDM") {
+    if ( m_dataType.find("STDM")!=std::string::npos ) { // Derivation (STDM)
       ANA_CHECK(m_event->copy("TruthEvents"));
       ANA_CHECK(m_event->copy("AntiKt4TruthJets"));
       ANA_CHECK(m_event->copy("AntiKt4TruthWZJets"));
@@ -623,7 +636,7 @@ EL::StatusCode vbfZnunuSkim :: execute ()
 
   ANA_CHECK(m_event->copy("EventInfo"));
   ANA_CHECK(m_event->copy("PrimaryVertices"));
-  if (m_nameDerivation == "EXOT5") {
+  if ( m_dataType.find("EXOT")!=std::string::npos ) { // Derivation (EXOT)
     ANA_CHECK(m_event->copy("Kt4EMTopoEventShape"));
     ANA_CHECK(m_event->copy("AntiKt4EMTopoJets"));
     ANA_CHECK(m_event->copy("Muons"));
@@ -642,14 +655,14 @@ EL::StatusCode vbfZnunuSkim :: execute ()
   ANA_CHECK(m_event->copy("xTrigDecision"));
   //ANA_CHECK(m_event->copy("TrigNavigation"));
   ANA_CHECK(m_event->copy("TrigConfKeys"));
-  if (m_nameDerivation == "EXOT5") {
+  if ( m_dataType.find("EXOT")!=std::string::npos ) { // Derivation (EXOT)
     ANA_CHECK(m_event->copy("HLT_xAOD__MuonContainer_MuonEFInfo"));
     ANA_CHECK(m_event->copy("HLT_xAOD__ElectronContainer_egamma_Electrons"));
     ANA_CHECK(m_event->copy("BTagging_AntiKt4EMTopo"));
     ANA_CHECK(m_event->copy("MET_Track"));
   }
 
-m_event->fill();
+  m_event->fill();
 
 
 
@@ -684,6 +697,7 @@ EL::StatusCode vbfZnunuSkim :: finalize ()
 
   file_xAOD->cd();
   h_sumOfWeights->Write();
+  h_dataType->Write();
   ANA_CHECK(m_event->finishWritingTo( file_xAOD ));
 
   // File Meta Data Tool

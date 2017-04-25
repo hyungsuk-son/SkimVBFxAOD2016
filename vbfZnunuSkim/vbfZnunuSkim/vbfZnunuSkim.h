@@ -66,6 +66,7 @@ public:
 
   TFile *file_xAOD; //!
   TH1 *h_sumOfWeights; //!
+  TH1 *h_dataType; //!
 
   xAODMaker::FileMetaDataTool *m_fileMetaDataTool; //!
   xAODMaker::TriggerMenuMetaDataTool *m_triggerMenuMetaDataTool; //!
