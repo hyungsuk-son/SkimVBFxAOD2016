@@ -41,11 +41,11 @@ int main( int argc, char* argv[] ) {
   // If you know the name of all your grid datasets you can also skip the dq2-ls step and add the datasets directly
 
   // Data16
-  SH::addGrid (sh, "data16_13TeV.00311473.physics_Main.merge.DAOD_EXOT5.f758_m1710_p2950");
+  //SH::addGrid (sh, "data16_13TeV.00311473.physics_Main.merge.DAOD_EXOT5.f758_m1710_p2950");
   // mc15c
-  //SH::addGrid (sh, "mc15_13TeV.363406.Sherpa_NNPDF30NNLO_Zee_Pt1000_2000_CVetoBVeto.merge.DAOD_EXOT5.e4716_s2726_r7326_r6282_p2495");
-  //SH::addGrid (sh, "mc15_13TeV.364152.Sherpa_221_NNPDF30NNLO_Znunu_MAXHTPTV280_500_CFilterBVeto.merge.DAOD_EXOT5.e5308_s2726_r7772_r7676_p2949");
-  //SH::addGrid (sh, "mc15_13TeV.364122.Sherpa_221_NNPDF30NNLO_Zee_MAXHTPTV140_280_BFilter.merge.DAOD_EXOT5.e5299_s2726_r7772_r7676_p2949");
+  SH::addGrid (sh, "mc15_13TeV.364151.Sherpa_221_NNPDF30NNLO_Znunu_MAXHTPTV280_500_CVetoBVeto.merge.DAOD_EXOT5.e5308_s2726_r7772_r7676_p2949");
+  SH::addGrid (sh, "mc15_13TeV.364123.Sherpa_221_NNPDF30NNLO_Zee_MAXHTPTV280_500_CVetoBVeto.merge.DAOD_EXOT5.e5299_s2726_r7772_r7676_p2949");
+  SH::addGrid (sh, "mc15_13TeV.364109.Sherpa_221_NNPDF30NNLO_Zmumu_MAXHTPTV280_500_CVetoBVeto.merge.DAOD_EXOT5.e5271_s2726_r7772_r7676_p2949");
 
   // Set the name of the input TTree. It's always "CollectionTree"
   // for xAOD files.
@@ -90,13 +90,15 @@ int main( int argc, char* argv[] ) {
   EL::PrunDriver driver;  //grid
 //  EL::GridDriver driver; //grid in the background
 
-  driver.options()->setString("nc_outputSampleName", "user.hson.xAOD.skim.04232017data16rere.%in:name[2]%.%in:name[6]%"); //For PrunDriver
+  driver.options()->setString("nc_outputSampleName", "user.hson.xAOD.skim.05022017mc15c.%in:name[2]%.%in:name[6]%"); //For PrunDriver
 //  driver.outputSampleName = "user.hson.gridtest1.11142015.%in:name[2]%.%in:name[6]%"; //For GridDriver
 //  driver.options()->setDouble("nc_nFiles", 2); // FOR TESTING!
 //  driver.options()->setDouble("nc_nFilesPerJob", 1);
 //  driver.options()->setDouble(EL::Job::optGridNFilesPerJob, 1);
 //  driver.options()->setDouble(EL::Job::optGridMaxNFilesPerJob, 3);
-  driver.options()->setDouble(EL::Job::optGridNGBPerJob, 3);
+//  driver.options()->setDouble(EL::Job::optGridNGBPerJob, 3);
+//  driver.options()->setDouble(EL::Job::optGridNGBPerMergeJob, 2);
+//  driver.options()->setDouble("nc_nGBPerMergeJob", 2);
 //  driver.options()->setString("nc_excludedSite", "ANALY_SCINET,ANALY_VICTORIA,ANALY_CERN_CLOUD,ANALY_IN2P3-CC,ANALY_LAPP,ANALY_CONNECT_SHORT,ANALY_SFU,ANALY_CONNECT,ANALY_RAL_SL6,ANALY_GRIF-LPNHE,ANALY_HU_ATLAS_Tier2,ANALY_OU_OCHEP_SWT2,ANALY_IFIC,ANALY_ECDF_SL6");
 //  driver.options()->setString("nc_excludedSite", "ANALY_INFN-NAPOLI-RECAS,ANALY_INFN-NAPOLI,ANALY_DESY-HH,ANALY_GRIF-IRFU,ANALY_AUSTRALIA,ANALY_SFU,ANALY_SCINET,ANALY_CPPM,ANALY_SiGNET,ANALY_LPC,ANALY_NSC,ANALY_CONNECT,ANALY_MWT2_SL6,ANALY_BU_ATLAS_Tier2_SL6,ANALY_wuppertalprod,ANALY_ARNES,ANALY_SLAC_SHORT_1HR,ANALY_SLAC,ANALY_RAL_SL6,ANALY_INFN-MILANO-ATLASC");
 //  driver.options()->setString("nc_excludedSite", "ANALY_TRIUMF");

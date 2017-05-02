@@ -542,12 +542,13 @@ EL::StatusCode vbfZnunuSkim :: execute ()
   delete m_recoJetAux;
 
   //bool acceptEvent = passUncalibMonojetCut || passRecoJetCuts;
-  /*
   bool acceptEvent = passRecoJetCuts;
-  if (!acceptEvent){
-    return EL::StatusCode::SUCCESS; // go to next event
-  }
-  */
+  if(m_isData){ // it's data!
+    if (!acceptEvent){
+      return EL::StatusCode::SUCCESS; // go to next event
+    }
+  } // end if Data
+
 
 
   //------------
