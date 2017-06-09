@@ -46,18 +46,114 @@ int main( int argc, char* argv[] ) {
 
   // EWK
 
-  // Zmumu
-  SH::addGrid (sh, "mc15_13TeV.363373.Sherpa_NNPDF30NNLO_Zmumu_Pt280_500_CVetoBVeto.merge.DAOD_EXOT5.e4716_s2726_r7725_r7676_p2666");
   // Sherpa diboson samples, after the EventShape bugfix (which affected p2839)
-  // Znunu
-  // Wenu
-  // Wmunu
-  // Wtaunu
-  // Zee
   // Zmumu
-  //SH::addGrid (sh, "mc15_13TeV.364109.Sherpa_221_NNPDF30NNLO_Zmumu_MAXHTPTV280_500_CVetoBVeto.merge.DAOD_EXOT5.e5271_s2726_r7772_r7676_p2949");
-
+  SH::addGrid (sh, "mc15_13TeV.364100.Sherpa_221_NNPDF30NNLO_Zmumu_MAXHTPTV0_70_CVetoBVeto.merge.DAOD_EXOT5.e5271_s2726_r7772_r7676_p2949");
+  SH::addGrid (sh, "mc15_13TeV.364101.Sherpa_221_NNPDF30NNLO_Zmumu_MAXHTPTV0_70_CFilterBVeto.merge.DAOD_EXOT5.e5271_s2726_r7772_r7676_p2949");
+  SH::addGrid (sh, "mc15_13TeV.364102.Sherpa_221_NNPDF30NNLO_Zmumu_MAXHTPTV0_70_BFilter.merge.DAOD_EXOT5.e5271_s2726_r7772_r7676_p2949");
+  SH::addGrid (sh, "mc15_13TeV.364103.Sherpa_221_NNPDF30NNLO_Zmumu_MAXHTPTV70_140_CVetoBVeto.merge.DAOD_EXOT5.e5271_s2726_r7772_r7676_p2949");
+  SH::addGrid (sh, "mc15_13TeV.364104.Sherpa_221_NNPDF30NNLO_Zmumu_MAXHTPTV70_140_CFilterBVeto.merge.DAOD_EXOT5.e5271_s2726_r7772_r7676_p2949");
+  SH::addGrid (sh, "mc15_13TeV.364105.Sherpa_221_NNPDF30NNLO_Zmumu_MAXHTPTV70_140_BFilter.merge.DAOD_EXOT5.e5271_s2726_r7772_r7676_p2949");
+  SH::addGrid (sh, "mc15_13TeV.364106.Sherpa_221_NNPDF30NNLO_Zmumu_MAXHTPTV140_280_CVetoBVeto.merge.DAOD_EXOT5.e5271_s2726_r7772_r7676_p2949");
+  SH::addGrid (sh, "mc15_13TeV.364107.Sherpa_221_NNPDF30NNLO_Zmumu_MAXHTPTV140_280_CFilterBVeto.merge.DAOD_EXOT5.e5271_s2726_r7772_r7676_p2949");
+  SH::addGrid (sh, "mc15_13TeV.364108.Sherpa_221_NNPDF30NNLO_Zmumu_MAXHTPTV140_280_BFilter.merge.DAOD_EXOT5.e5271_s2726_r7772_r7676_p2949");
+  SH::addGrid (sh, "mc15_13TeV.364109.Sherpa_221_NNPDF30NNLO_Zmumu_MAXHTPTV280_500_CVetoBVeto.merge.DAOD_EXOT5.e5271_s2726_r7772_r7676_p2949");
+  SH::addGrid (sh, "mc15_13TeV.364110.Sherpa_221_NNPDF30NNLO_Zmumu_MAXHTPTV280_500_CFilterBVeto.merge.DAOD_EXOT5.e5271_s2726_r7772_r7676_p2949");
+  SH::addGrid (sh, "mc15_13TeV.364111.Sherpa_221_NNPDF30NNLO_Zmumu_MAXHTPTV280_500_BFilter.merge.DAOD_EXOT5.e5271_s2726_r7772_r7676_p2949");
+  SH::addGrid (sh, "mc15_13TeV.364112.Sherpa_221_NNPDF30NNLO_Zmumu_MAXHTPTV500_1000.merge.DAOD_EXOT5.e5271_s2726_r7772_r7676_p2949");
+  SH::addGrid (sh, "mc15_13TeV.364113.Sherpa_221_NNPDF30NNLO_Zmumu_MAXHTPTV1000_E_CMS.merge.DAOD_EXOT5.e5271_s2726_r7772_r7676_p2949");
+  /*
+  // Zee
+  SH::addGrid (sh, "mc15_13TeV.364114.Sherpa_221_NNPDF30NNLO_Zee_MAXHTPTV0_70_CVetoBVeto.merge.DAOD_EXOT5.e5299_s2726_r7772_r7676_p2949");
+  SH::addGrid (sh, "mc15_13TeV.364115.Sherpa_221_NNPDF30NNLO_Zee_MAXHTPTV0_70_CFilterBVeto.merge.DAOD_EXOT5.e5299_s2726_r7772_r7676_p2949");
+  SH::addGrid (sh, "mc15_13TeV.364116.Sherpa_221_NNPDF30NNLO_Zee_MAXHTPTV0_70_BFilter.merge.DAOD_EXOT5.e5299_s2726_r7772_r7676_p2949");
+  SH::addGrid (sh, "mc15_13TeV.364117.Sherpa_221_NNPDF30NNLO_Zee_MAXHTPTV70_140_CVetoBVeto.merge.DAOD_EXOT5.e5299_s2726_r7772_r7676_p2949");
+  SH::addGrid (sh, "mc15_13TeV.364118.Sherpa_221_NNPDF30NNLO_Zee_MAXHTPTV70_140_CFilterBVeto.merge.DAOD_EXOT5.e5299_s2726_r7772_r7676_p2949");
+  SH::addGrid (sh, "mc15_13TeV.364119.Sherpa_221_NNPDF30NNLO_Zee_MAXHTPTV70_140_BFilter.merge.DAOD_EXOT5.e5299_s2726_r7772_r7676_p2949");
+  SH::addGrid (sh, "mc15_13TeV.364120.Sherpa_221_NNPDF30NNLO_Zee_MAXHTPTV140_280_CVetoBVeto.merge.DAOD_EXOT5.e5299_s2726_r7772_r7676_p2949");
+  SH::addGrid (sh, "mc15_13TeV.364121.Sherpa_221_NNPDF30NNLO_Zee_MAXHTPTV140_280_CFilterBVeto.merge.DAOD_EXOT5.e5299_s2726_r7772_r7676_p2949");
+  SH::addGrid (sh, "mc15_13TeV.364122.Sherpa_221_NNPDF30NNLO_Zee_MAXHTPTV140_280_BFilter.merge.DAOD_EXOT5.e5299_s2726_r7772_r7676_p2949");
+  SH::addGrid (sh, "mc15_13TeV.364123.Sherpa_221_NNPDF30NNLO_Zee_MAXHTPTV280_500_CVetoBVeto.merge.DAOD_EXOT5.e5299_s2726_r7772_r7676_p2949");
+  SH::addGrid (sh, "mc15_13TeV.364124.Sherpa_221_NNPDF30NNLO_Zee_MAXHTPTV280_500_CFilterBVeto.merge.DAOD_EXOT5.e5299_s2726_r7772_r7676_p2949");
+  SH::addGrid (sh, "mc15_13TeV.364125.Sherpa_221_NNPDF30NNLO_Zee_MAXHTPTV280_500_BFilter.merge.DAOD_EXOT5.e5299_s2726_r7772_r7676_p2949");
+  SH::addGrid (sh, "mc15_13TeV.364126.Sherpa_221_NNPDF30NNLO_Zee_MAXHTPTV500_1000.merge.DAOD_EXOT5.e5299_s2726_r7772_r7676_p2949");
+  SH::addGrid (sh, "mc15_13TeV.364127.Sherpa_221_NNPDF30NNLO_Zee_MAXHTPTV1000_E_CMS.merge.DAOD_EXOT5.e5299_s2726_r7772_r7676_p2949");
   // Ztautau
+  SH::addGrid (sh, "mc15_13TeV.364128.Sherpa_221_NNPDF30NNLO_Ztautau_MAXHTPTV0_70_CVetoBVeto.merge.DAOD_EXOT5.e5307_s2726_r7772_r7676_p2949");
+  SH::addGrid (sh, "mc15_13TeV.364129.Sherpa_221_NNPDF30NNLO_Ztautau_MAXHTPTV0_70_CFilterBVeto.merge.DAOD_EXOT5.e5307_s2726_r7772_r7676_p2949");
+  SH::addGrid (sh, "mc15_13TeV.364130.Sherpa_221_NNPDF30NNLO_Ztautau_MAXHTPTV0_70_BFilter.merge.DAOD_EXOT5.e5307_s2726_r7772_r7676_p2949");
+  SH::addGrid (sh, "mc15_13TeV.364131.Sherpa_221_NNPDF30NNLO_Ztautau_MAXHTPTV70_140_CVetoBVeto.merge.DAOD_EXOT5.e5307_s2726_r7772_r7676_p2949");
+  SH::addGrid (sh, "mc15_13TeV.364132.Sherpa_221_NNPDF30NNLO_Ztautau_MAXHTPTV70_140_CFilterBVeto.merge.DAOD_EXOT5.e5307_s2726_r7772_r7676_p2949");
+  SH::addGrid (sh, "mc15_13TeV.364133.Sherpa_221_NNPDF30NNLO_Ztautau_MAXHTPTV70_140_BFilter.merge.DAOD_EXOT5.e5307_s2726_r7772_r7676_p2949");
+  SH::addGrid (sh, "mc15_13TeV.364134.Sherpa_221_NNPDF30NNLO_Ztautau_MAXHTPTV140_280_CVetoBVeto.merge.DAOD_EXOT5.e5307_s2726_r7772_r7676_p2949");
+  SH::addGrid (sh, "mc15_13TeV.364135.Sherpa_221_NNPDF30NNLO_Ztautau_MAXHTPTV140_280_CFilterBVeto.merge.DAOD_EXOT5.e5307_s2726_r7772_r7676_p2949");
+  SH::addGrid (sh, "mc15_13TeV.364136.Sherpa_221_NNPDF30NNLO_Ztautau_MAXHTPTV140_280_BFilter.merge.DAOD_EXOT5.e5307_s2726_r7772_r7676_p2949");
+  SH::addGrid (sh, "mc15_13TeV.364137.Sherpa_221_NNPDF30NNLO_Ztautau_MAXHTPTV280_500_CVetoBVeto.merge.DAOD_EXOT5.e5307_s2726_r7772_r7676_p2949");
+  SH::addGrid (sh, "mc15_13TeV.364138.Sherpa_221_NNPDF30NNLO_Ztautau_MAXHTPTV280_500_CFilterBVeto.merge.DAOD_EXOT5.e5313_s2726_r7772_r7676_p2949");
+  SH::addGrid (sh, "mc15_13TeV.364139.Sherpa_221_NNPDF30NNLO_Ztautau_MAXHTPTV280_500_BFilter.merge.DAOD_EXOT5.e5313_s2726_r7772_r7676_p2949");
+  SH::addGrid (sh, "mc15_13TeV.364140.Sherpa_221_NNPDF30NNLO_Ztautau_MAXHTPTV500_1000.merge.DAOD_EXOT5.e5307_s2726_r7772_r7676_p2949");
+  SH::addGrid (sh, "mc15_13TeV.364141.Sherpa_221_NNPDF30NNLO_Ztautau_MAXHTPTV1000_E_CMS.merge.DAOD_EXOT5.e5307_s2726_r7772_r7676_p2949");
+  // Znunu
+  SH::addGrid (sh, "mc15_13TeV.364142.Sherpa_221_NNPDF30NNLO_Znunu_MAXHTPTV0_70_CVetoBVeto.merge.DAOD_EXOT5.e5308_s2726_r7772_r7676_p2949");
+  SH::addGrid (sh, "mc15_13TeV.364143.Sherpa_221_NNPDF30NNLO_Znunu_MAXHTPTV0_70_CFilterBVeto.merge.DAOD_EXOT5.e5308_s2726_r7772_r7676_p2949");
+  SH::addGrid (sh, "mc15_13TeV.364144.Sherpa_221_NNPDF30NNLO_Znunu_MAXHTPTV0_70_BFilter.merge.DAOD_EXOT5.e5308_s2726_r7772_r7676_p2949");
+  SH::addGrid (sh, "mc15_13TeV.364145.Sherpa_221_NNPDF30NNLO_Znunu_MAXHTPTV70_140_CVetoBVeto.merge.DAOD_EXOT5.e5308_s2726_r7772_r7676_p2949");
+  SH::addGrid (sh, "mc15_13TeV.364146.Sherpa_221_NNPDF30NNLO_Znunu_MAXHTPTV70_140_CFilterBVeto.merge.DAOD_EXOT5.e5308_s2726_r7772_r7676_p2949");
+  SH::addGrid (sh, "mc15_13TeV.364147.Sherpa_221_NNPDF30NNLO_Znunu_MAXHTPTV70_140_BFilter.merge.DAOD_EXOT5.e5308_s2726_r7772_r7676_p2949");
+  SH::addGrid (sh, "mc15_13TeV.364148.Sherpa_221_NNPDF30NNLO_Znunu_MAXHTPTV140_280_CVetoBVeto.merge.DAOD_EXOT5.e5308_s2726_r7772_r7676_p2949");
+  SH::addGrid (sh, "mc15_13TeV.364149.Sherpa_221_NNPDF30NNLO_Znunu_MAXHTPTV140_280_CFilterBVeto.merge.DAOD_EXOT5.e5308_s2726_r7772_r7676_p2949");
+  SH::addGrid (sh, "mc15_13TeV.364150.Sherpa_221_NNPDF30NNLO_Znunu_MAXHTPTV140_280_BFilter.merge.DAOD_EXOT5.e5308_s2726_r7772_r7676_p2949");
+  SH::addGrid (sh, "mc15_13TeV.364151.Sherpa_221_NNPDF30NNLO_Znunu_MAXHTPTV280_500_CVetoBVeto.merge.DAOD_EXOT5.e5308_s2726_r7772_r7676_p2949");
+  SH::addGrid (sh, "mc15_13TeV.364152.Sherpa_221_NNPDF30NNLO_Znunu_MAXHTPTV280_500_CFilterBVeto.merge.DAOD_EXOT5.e5308_s2726_r7772_r7676_p2949");
+  SH::addGrid (sh, "mc15_13TeV.364153.Sherpa_221_NNPDF30NNLO_Znunu_MAXHTPTV280_500_BFilter.merge.DAOD_EXOT5.e5308_s2726_r7772_r7676_p2949");
+  SH::addGrid (sh, "mc15_13TeV.364154.Sherpa_221_NNPDF30NNLO_Znunu_MAXHTPTV500_1000.merge.DAOD_EXOT5.e5308_s2726_r7772_r7676_p2949");
+  SH::addGrid (sh, "mc15_13TeV.364155.Sherpa_221_NNPDF30NNLO_Znunu_MAXHTPTV1000_E_CMS.merge.DAOD_EXOT5.e5308_s2726_r7772_r7676_p2949");
+  // Wmunu
+  SH::addGrid (sh, "mc15_13TeV.364156.Sherpa_221_NNPDF30NNLO_Wmunu_MAXHTPTV0_70_CVetoBVeto.merge.DAOD_EXOT5.e5340_s2726_r7772_r7676_p2949");
+  SH::addGrid (sh, "mc15_13TeV.364157.Sherpa_221_NNPDF30NNLO_Wmunu_MAXHTPTV0_70_CFilterBVeto.merge.DAOD_EXOT5.e5340_s2726_r7772_r7676_p2949");
+  SH::addGrid (sh, "mc15_13TeV.364158.Sherpa_221_NNPDF30NNLO_Wmunu_MAXHTPTV0_70_BFilter.merge.DAOD_EXOT5.e5340_s2726_r7772_r7676_p2949");
+  SH::addGrid (sh, "mc15_13TeV.364159.Sherpa_221_NNPDF30NNLO_Wmunu_MAXHTPTV70_140_CVetoBVeto.merge.DAOD_EXOT5.e5340_s2726_r7772_r7676_p2949");
+  SH::addGrid (sh, "mc15_13TeV.364160.Sherpa_221_NNPDF30NNLO_Wmunu_MAXHTPTV70_140_CFilterBVeto.merge.DAOD_EXOT5.e5340_s2726_r7772_r7676_p2949");
+  SH::addGrid (sh, "mc15_13TeV.364161.Sherpa_221_NNPDF30NNLO_Wmunu_MAXHTPTV70_140_BFilter.merge.DAOD_EXOT5.e5340_s2726_r7772_r7676_p2949");
+  SH::addGrid (sh, "mc15_13TeV.364162.Sherpa_221_NNPDF30NNLO_Wmunu_MAXHTPTV140_280_CVetoBVeto.merge.DAOD_EXOT5.e5340_s2726_r7772_r7676_p2949");
+  SH::addGrid (sh, "mc15_13TeV.364163.Sherpa_221_NNPDF30NNLO_Wmunu_MAXHTPTV140_280_CFilterBVeto.merge.DAOD_EXOT5.e5340_s2726_r7772_r7676_p2949");
+  SH::addGrid (sh, "mc15_13TeV.364164.Sherpa_221_NNPDF30NNLO_Wmunu_MAXHTPTV140_280_BFilter.merge.DAOD_EXOT5.e5340_s2726_r7772_r7676_p2949");
+  SH::addGrid (sh, "mc15_13TeV.364165.Sherpa_221_NNPDF30NNLO_Wmunu_MAXHTPTV280_500_CVetoBVeto.merge.DAOD_EXOT5.e5340_s2726_r7772_r7676_p2949");
+  SH::addGrid (sh, "mc15_13TeV.364166.Sherpa_221_NNPDF30NNLO_Wmunu_MAXHTPTV280_500_CFilterBVeto.merge.DAOD_EXOT5.e5340_s2726_r7772_r7676_p2949");
+  SH::addGrid (sh, "mc15_13TeV.364167.Sherpa_221_NNPDF30NNLO_Wmunu_MAXHTPTV280_500_BFilter.merge.DAOD_EXOT5.e5340_s2726_r7772_r7676_p2949");
+  SH::addGrid (sh, "mc15_13TeV.364168.Sherpa_221_NNPDF30NNLO_Wmunu_MAXHTPTV500_1000.merge.DAOD_EXOT5.e5340_s2726_r7772_r7676_p2949");
+  SH::addGrid (sh, "mc15_13TeV.364169.Sherpa_221_NNPDF30NNLO_Wmunu_MAXHTPTV1000_E_CMS.merge.DAOD_EXOT5.e5340_s2726_r7772_r7676_p2949");
+  // Wenu
+  SH::addGrid (sh, "mc15_13TeV.364170.Sherpa_221_NNPDF30NNLO_Wenu_MAXHTPTV0_70_CVetoBVeto.merge.DAOD_EXOT5.e5340_s2726_r7772_r7676_p2949");
+  SH::addGrid (sh, "mc15_13TeV.364171.Sherpa_221_NNPDF30NNLO_Wenu_MAXHTPTV0_70_CFilterBVeto.merge.DAOD_EXOT5.e5340_s2726_r7772_r7676_p2949");
+  SH::addGrid (sh, "mc15_13TeV.364172.Sherpa_221_NNPDF30NNLO_Wenu_MAXHTPTV0_70_BFilter.merge.DAOD_EXOT5.e5340_s2726_r7772_r7676_p2949");
+  SH::addGrid (sh, "mc15_13TeV.364173.Sherpa_221_NNPDF30NNLO_Wenu_MAXHTPTV70_140_CVetoBVeto.merge.DAOD_EXOT5.e5340_s2726_r7772_r7676_p2949");
+  SH::addGrid (sh, "mc15_13TeV.364174.Sherpa_221_NNPDF30NNLO_Wenu_MAXHTPTV70_140_CFilterBVeto.merge.DAOD_EXOT5.e5340_s2726_r7772_r7676_p2949");
+  SH::addGrid (sh, "mc15_13TeV.364175.Sherpa_221_NNPDF30NNLO_Wenu_MAXHTPTV70_140_BFilter.merge.DAOD_EXOT5.e5340_s2726_r7772_r7676_p2949");
+  SH::addGrid (sh, "mc15_13TeV.364176.Sherpa_221_NNPDF30NNLO_Wenu_MAXHTPTV140_280_CVetoBVeto.merge.DAOD_EXOT5.e5340_s2726_r7772_r7676_p2949");
+  SH::addGrid (sh, "mc15_13TeV.364177.Sherpa_221_NNPDF30NNLO_Wenu_MAXHTPTV140_280_CFilterBVeto.merge.DAOD_EXOT5.e5340_s2726_r7772_r7676_p2949");
+  SH::addGrid (sh, "mc15_13TeV.364178.Sherpa_221_NNPDF30NNLO_Wenu_MAXHTPTV140_280_BFilter.merge.DAOD_EXOT5.e5340_s2726_r7772_r7676_p2949");
+  SH::addGrid (sh, "mc15_13TeV.364179.Sherpa_221_NNPDF30NNLO_Wenu_MAXHTPTV280_500_CVetoBVeto.merge.DAOD_EXOT5.e5340_s2726_r7772_r7676_p2949");
+  SH::addGrid (sh, "mc15_13TeV.364180.Sherpa_221_NNPDF30NNLO_Wenu_MAXHTPTV280_500_CFilterBVeto.merge.DAOD_EXOT5.e5340_s2726_r7772_r7676_p2949");
+  SH::addGrid (sh, "mc15_13TeV.364181.Sherpa_221_NNPDF30NNLO_Wenu_MAXHTPTV280_500_BFilter.merge.DAOD_EXOT5.e5340_s2726_r7772_r7676_p2949");
+  SH::addGrid (sh, "mc15_13TeV.364182.Sherpa_221_NNPDF30NNLO_Wenu_MAXHTPTV500_1000.merge.DAOD_EXOT5.e5340_s2726_r7772_r7676_p2949");
+  SH::addGrid (sh, "mc15_13TeV.364183.Sherpa_221_NNPDF30NNLO_Wenu_MAXHTPTV1000_E_CMS.merge.DAOD_EXOT5.e5340_s2726_r7772_r7676_p2949");
+  // Wtaunu
+  SH::addGrid (sh, "mc15_13TeV.364184.Sherpa_221_NNPDF30NNLO_Wtaunu_MAXHTPTV0_70_CVetoBVeto.merge.DAOD_EXOT5.e5340_s2726_r7772_r7676_p2949");
+  SH::addGrid (sh, "mc15_13TeV.364185.Sherpa_221_NNPDF30NNLO_Wtaunu_MAXHTPTV0_70_CFilterBVeto.merge.DAOD_EXOT5.e5340_s2726_r7772_r7676_p2949");
+  SH::addGrid (sh, "mc15_13TeV.364186.Sherpa_221_NNPDF30NNLO_Wtaunu_MAXHTPTV0_70_BFilter.merge.DAOD_EXOT5.e5340_s2726_r7772_r7676_p2949");
+  SH::addGrid (sh, "mc15_13TeV.364187.Sherpa_221_NNPDF30NNLO_Wtaunu_MAXHTPTV70_140_CVetoBVeto.merge.DAOD_EXOT5.e5340_s2726_r7772_r7676_p2949");
+  SH::addGrid (sh, "mc15_13TeV.364188.Sherpa_221_NNPDF30NNLO_Wtaunu_MAXHTPTV70_140_CFilterBVeto.merge.DAOD_EXOT5.e5340_s2726_r7772_r7676_p2949");
+  SH::addGrid (sh, "mc15_13TeV.364189.Sherpa_221_NNPDF30NNLO_Wtaunu_MAXHTPTV70_140_BFilter.merge.DAOD_EXOT5.e5340_s2726_r7772_r7676_p2949");
+  SH::addGrid (sh, "mc15_13TeV.364190.Sherpa_221_NNPDF30NNLO_Wtaunu_MAXHTPTV140_280_CVetoBVeto.merge.DAOD_EXOT5.e5340_s2726_r7772_r7676_p2949");
+  SH::addGrid (sh, "mc15_13TeV.364191.Sherpa_221_NNPDF30NNLO_Wtaunu_MAXHTPTV140_280_CFilterBVeto.merge.DAOD_EXOT5.e5340_s2726_r7772_r7676_p2949");
+  SH::addGrid (sh, "mc15_13TeV.364192.Sherpa_221_NNPDF30NNLO_Wtaunu_MAXHTPTV140_280_BFilter.merge.DAOD_EXOT5.e5340_s2726_r7772_r7676_p2949");
+  SH::addGrid (sh, "mc15_13TeV.364193.Sherpa_221_NNPDF30NNLO_Wtaunu_MAXHTPTV280_500_CVetoBVeto.merge.DAOD_EXOT5.e5340_s2726_r7772_r7676_p2949");
+  SH::addGrid (sh, "mc15_13TeV.364194.Sherpa_221_NNPDF30NNLO_Wtaunu_MAXHTPTV280_500_CFilterBVeto.merge.DAOD_EXOT5.e5340_s2726_r7772_r7676_p2949");
+  SH::addGrid (sh, "mc15_13TeV.364195.Sherpa_221_NNPDF30NNLO_Wtaunu_MAXHTPTV280_500_BFilter.merge.DAOD_EXOT5.e5340_s2726_r7772_r7676_p2949");
+  SH::addGrid (sh, "mc15_13TeV.364196.Sherpa_221_NNPDF30NNLO_Wtaunu_MAXHTPTV500_1000.merge.DAOD_EXOT5.e5340_s2726_r7772_r7676_p2949");
+  SH::addGrid (sh, "mc15_13TeV.364197.Sherpa_221_NNPDF30NNLO_Wtaunu_MAXHTPTV1000_E_CMS.merge.DAOD_EXOT5.e5340_s2726_r7772_r7676_p2949");
+  */
 
   // ttbar and single top
   // Multijet
@@ -76,9 +172,9 @@ int main( int argc, char* argv[] ) {
   EL::Job job;
   job.sampleHandler( sh );
 //  job.options()->setDouble (EL::Job::optMaxEvents, 500);
-  job.options()->setDouble (EL::Job::optRetries, 30);
-  job.options()->setDouble (EL::Job::optCacheSize, 10*1024*1024);
-  job.options()->setDouble (EL::Job::optCacheLearnEntries, 50);
+  //job.options()->setDouble (EL::Job::optRetries, 30);
+  //job.options()->setDouble (EL::Job::optCacheSize, 10*1024*1024);
+  //job.options()->setDouble (EL::Job::optCacheLearnEntries, 50);
 
 /*  
   // For ntuple
@@ -106,16 +202,18 @@ int main( int argc, char* argv[] ) {
   EL::PrunDriver driver;  //grid
 //  EL::GridDriver driver; //grid in the background
 
-  driver.options()->setString("nc_outputSampleName", "user.hson.mc15_13TeV.DAOD_EXOT5.02082017rere.%in:name[2]%.%in:name[6]%"); //For PrunDriver
+  driver.options()->setString("nc_outputSampleName", "user.hson.mc15c.13TeV.DAOD_EXOT5_Zmumu_skim_v1.06092017.%in:name[2]%.%in:name[6]%"); //For PrunDriver
 //  driver.outputSampleName = "user.hson.gridtest1.11142015.%in:name[2]%.%in:name[6]%"; //For GridDriver
 //  driver.options()->setDouble("nc_nFiles", 2); // FOR TESTING!
 //  driver.options()->setDouble("nc_nFilesPerJob", 1);
 //  driver.options()->setDouble(EL::Job::optGridNFilesPerJob, 1);
+  driver.options()->setDouble(EL::Job::optGridNGBPerJob, 6);
+  driver.options()->setDouble(EL::Job::optGridNGBPerMergeJob, 2);
 //  driver.options()->setString("nc_excludedSite", "ANALY_INFN-NAPOLI-RECAS,ANALY_INFN-NAPOLI,ANALY_DESY-HH,ANALY_GRIF-IRFU,ANALY_AUSTRALIA,ANALY_SFU,ANALY_SCINET,ANALY_CPPM,ANALY_SiGNET,ANALY_LPC,ANALY_NSC,ANALY_CONNECT,ANALY_MWT2_SL6,ANALY_BU_ATLAS_Tier2_SL6,ANALY_wuppertalprod,ANALY_ARNES,ANALY_SLAC_SHORT_1HR,ANALY_SLAC,ANALY_RAL_SL6,ANALY_INFN-MILANO-ATLASC");
 //  driver.options()->setString("nc_excludedSite", "ANALY_BNL_LONG,ANALY_LRZ,ANALY_FZK_SHORT,ANALY_SiGNET,ANALY_DESY-ZN,ANALY_FZK,ANALY_LPC,ANALY_TRIUMF,ANALY_GLASGOW_SL6");
 
   //driver.options()->setString("nc_excludedSite", "ANALY_BHAM_SL6,ANALY_BU_ATLAS_Tier2_SL6,ANALY_GOEGRID,ANALY_IHEP,ANALY_TR-10-ULAKBIM,ANALY_IL-TAU-HEP-CREAM,ANALY_MCGILL");
-  driver.options()->setString("nc_excludedSite", "ANALY_RAL_SL6");
+  //driver.options()->setString("nc_excludedSite", "ANALY_RAL_SL6");
 
 //  driver.options()->setString("nc_site", "ANALY_CERN_SHORT,ANALY_CERN_SLC6,ANALY_PIC_SL6,ANALY_SARA"); // The Reflex dictionary build only works on a few sites
 //  driver.options()->setString("nc_site", "ANALY_CERN_SLC6"); // The Reflex dictionary build only works on a few sites

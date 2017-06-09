@@ -73,7 +73,7 @@ EL::StatusCode vbfZnunuSkim :: setupJob (EL::Job& job)
 
   // Output
   EL::OutputStream out_xAOD ("mini-xAOD", "xAOD");
-  out_xAOD.options()->setString(EL::OutputStream::optMergeCmd, "xAODMerge -b -m xAODMaker::TriggerMenuMetaDataTool");
+  out_xAOD.options()->setString(EL::OutputStream::optMergeCmd, "xAODMerge -b -m xAODMaker::FileMetaDataTool -m xAODMaker::TriggerMenuMetaDataTool");
   job.outputAdd (out_xAOD);
 
   //EL::OutputStream out_tree ("output_tree");
@@ -524,8 +524,8 @@ EL::StatusCode vbfZnunuSkim :: execute ()
 
 
   // Sort recoJets
-  if (m_recoJet->size() > 1) std::partial_sort(m_recoJet->begin(), m_recoJet->begin()+2, m_recoJet->end(), DescendingPt());
-  //if (m_recoJet->size() > 1) std::sort(m_recoJet->begin(), m_recoJet->end(), DescendingPt());
+  //if (m_recoJet->size() > 1) std::partial_sort(m_recoJet->begin(), m_recoJet->begin()+2, m_recoJet->end(), DescendingPt());
+  if (m_recoJet->size() > 1) std::sort(m_recoJet->begin(), m_recoJet->end(), DescendingPt());
   
   float mjj = 0;
   if (m_recoJet->size() > 1) {
@@ -551,6 +551,7 @@ EL::StatusCode vbfZnunuSkim :: execute ()
 
 
 
+  /*
   //------------
   // MUONS
   //------------
@@ -610,6 +611,7 @@ EL::StatusCode vbfZnunuSkim :: execute ()
   delete m_goodMuons;
   delete m_goodMuonsAux;
 
+  */
 
   if (!m_isData) {
     if ( m_dataType.find("EXOT")!=std::string::npos ) { // Derivation (EXOT)
@@ -646,10 +648,13 @@ EL::StatusCode vbfZnunuSkim :: execute ()
     ANA_CHECK(m_event->copy("TauJets"));
     ANA_CHECK(m_event->copy("METAssoc_AntiKt4EMTopo"));
     ANA_CHECK(m_event->copy("MET_Core_AntiKt4EMTopo"));
+    ANA_CHECK(m_event->copy("MET_Reference_AntiKt4EMTopo"));
+    ANA_CHECK(m_event->copy("MET_LocHadTopo"));
     ANA_CHECK(m_event->copy("egammaClusters"));
     ANA_CHECK(m_event->copy("GSFTrackParticles"));
     ANA_CHECK(m_event->copy("GSFConversionVertices"));
     ANA_CHECK(m_event->copy("InDetTrackParticles"));
+    ANA_CHECK(m_event->copy("InDetForwardTrackParticles"));
     ANA_CHECK(m_event->copy("CombinedMuonTrackParticles"));
     ANA_CHECK(m_event->copy("ExtrapolatedMuonTrackParticles"));
   }
@@ -661,6 +666,7 @@ EL::StatusCode vbfZnunuSkim :: execute ()
     ANA_CHECK(m_event->copy("HLT_xAOD__ElectronContainer_egamma_Electrons"));
     ANA_CHECK(m_event->copy("BTagging_AntiKt4EMTopo"));
     ANA_CHECK(m_event->copy("MET_Track"));
+    ANA_CHECK(m_event->copy("MuonSegments"));
   }
 
   m_event->fill();

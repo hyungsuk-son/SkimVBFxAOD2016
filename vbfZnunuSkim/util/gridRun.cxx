@@ -60,9 +60,9 @@ int main( int argc, char* argv[] ) {
   EL::Job job;
   job.sampleHandler( sh );
 //  job.options()->setDouble (EL::Job::optMaxEvents, 500);
-  job.options()->setDouble (EL::Job::optRetries, 30);
-  job.options()->setDouble (EL::Job::optCacheSize, 10*1024*1024);
-  job.options()->setDouble (EL::Job::optCacheLearnEntries, 50);
+  //job.options()->setDouble (EL::Job::optRetries, 30);
+  //job.options()->setDouble (EL::Job::optCacheSize, 10*1024*1024);
+  //job.options()->setDouble (EL::Job::optCacheLearnEntries, 50);
 
 /*  
   // For ntuple
@@ -90,7 +90,7 @@ int main( int argc, char* argv[] ) {
   EL::PrunDriver driver;  //grid
 //  EL::GridDriver driver; //grid in the background
 
-  driver.options()->setString("nc_outputSampleName", "user.hson.xAOD.skim.05062017mc15cre.%in:name[2]%.%in:name[6]%"); //For PrunDriver
+  driver.options()->setString("nc_outputSampleName", "user.hson.xAOD.skim.06062017reremc15c.%in:name[2]%.%in:name[6]%"); //For PrunDriver
 //  driver.outputSampleName = "user.hson.gridtest1.11142015.%in:name[2]%.%in:name[6]%"; //For GridDriver
 //  driver.options()->setDouble("nc_nFiles", 2); // FOR TESTING!
 //  driver.options()->setDouble("nc_nFilesPerJob", 1);
@@ -102,7 +102,7 @@ int main( int argc, char* argv[] ) {
 //  driver.options()->setDouble("nc_nGBPerMergeJob", 2);
 //  driver.options()->setString("nc_excludedSite", "ANALY_SCINET,ANALY_VICTORIA,ANALY_CERN_CLOUD,ANALY_IN2P3-CC,ANALY_LAPP,ANALY_CONNECT_SHORT,ANALY_SFU,ANALY_CONNECT,ANALY_RAL_SL6,ANALY_GRIF-LPNHE,ANALY_HU_ATLAS_Tier2,ANALY_OU_OCHEP_SWT2,ANALY_IFIC,ANALY_ECDF_SL6");
 //  driver.options()->setString("nc_excludedSite", "ANALY_INFN-NAPOLI-RECAS,ANALY_INFN-NAPOLI,ANALY_DESY-HH,ANALY_GRIF-IRFU,ANALY_AUSTRALIA,ANALY_SFU,ANALY_SCINET,ANALY_CPPM,ANALY_SiGNET,ANALY_LPC,ANALY_NSC,ANALY_CONNECT,ANALY_MWT2_SL6,ANALY_BU_ATLAS_Tier2_SL6,ANALY_wuppertalprod,ANALY_ARNES,ANALY_SLAC_SHORT_1HR,ANALY_SLAC,ANALY_RAL_SL6,ANALY_INFN-MILANO-ATLASC");
-//  driver.options()->setString("nc_excludedSite", "ANALY_TRIUMF");
+  driver.options()->setString("nc_excludedSite", "ANALY_IFAE,ANALY_GRIF-LAL_HTCondor");
 //  driver.options()->setString("nc_site", "ANALY_CERN_SHORT,ANALY_CERN_SLC6,ANALY_PIC_SL6,ANALY_SARA"); // The Reflex dictionary build only works on a few sites
 //  driver.options()->setString("nc_site", "ANALY_CERN_SLC6"); // The Reflex dictionary build only works on a few sites
 //  driver.options()->setDouble(EL::Job::optGridMemory,10240); // 10 GB
