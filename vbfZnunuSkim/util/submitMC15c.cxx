@@ -42,11 +42,12 @@ int main( int argc, char* argv[] ) {
 //  SH::addGrid (sh, "data15_13TeV.00281411.physics_Main.merge.AOD.f629_m1504");
 //  SH::addGrid (sh, "data15_13TeV.00282784.physics_Main.merge.AOD.f640_m1511");
 
-  // MC15c_13TeV
+  // MC15c_13TeV (EXOT5)
 
   // EWK
 
   // Sherpa diboson samples, after the EventShape bugfix (which affected p2839)
+  /*
   // Zmumu
   SH::addGrid (sh, "mc15_13TeV.364100.Sherpa_221_NNPDF30NNLO_Zmumu_MAXHTPTV0_70_CVetoBVeto.merge.DAOD_EXOT5.e5271_s2726_r7772_r7676_p2949");
   SH::addGrid (sh, "mc15_13TeV.364101.Sherpa_221_NNPDF30NNLO_Zmumu_MAXHTPTV0_70_CFilterBVeto.merge.DAOD_EXOT5.e5271_s2726_r7772_r7676_p2949");
@@ -62,7 +63,6 @@ int main( int argc, char* argv[] ) {
   SH::addGrid (sh, "mc15_13TeV.364111.Sherpa_221_NNPDF30NNLO_Zmumu_MAXHTPTV280_500_BFilter.merge.DAOD_EXOT5.e5271_s2726_r7772_r7676_p2949");
   SH::addGrid (sh, "mc15_13TeV.364112.Sherpa_221_NNPDF30NNLO_Zmumu_MAXHTPTV500_1000.merge.DAOD_EXOT5.e5271_s2726_r7772_r7676_p2949");
   SH::addGrid (sh, "mc15_13TeV.364113.Sherpa_221_NNPDF30NNLO_Zmumu_MAXHTPTV1000_E_CMS.merge.DAOD_EXOT5.e5271_s2726_r7772_r7676_p2949");
-  /*
   // Zee
   SH::addGrid (sh, "mc15_13TeV.364114.Sherpa_221_NNPDF30NNLO_Zee_MAXHTPTV0_70_CVetoBVeto.merge.DAOD_EXOT5.e5299_s2726_r7772_r7676_p2949");
   SH::addGrid (sh, "mc15_13TeV.364115.Sherpa_221_NNPDF30NNLO_Zee_MAXHTPTV0_70_CFilterBVeto.merge.DAOD_EXOT5.e5299_s2726_r7772_r7676_p2949");
@@ -154,6 +154,16 @@ int main( int argc, char* argv[] ) {
   SH::addGrid (sh, "mc15_13TeV.364196.Sherpa_221_NNPDF30NNLO_Wtaunu_MAXHTPTV500_1000.merge.DAOD_EXOT5.e5340_s2726_r7772_r7676_p2949");
   SH::addGrid (sh, "mc15_13TeV.364197.Sherpa_221_NNPDF30NNLO_Wtaunu_MAXHTPTV1000_E_CMS.merge.DAOD_EXOT5.e5340_s2726_r7772_r7676_p2949");
   */
+  /*
+  */
+
+
+  // MC15c_13TeV (STDM4)
+
+  // Sherpa diboson samples, after the EventShape bugfix (which affected p2839)
+  // Zmumu
+  SH::addGrid (sh, "mc15_13TeV.364100.Sherpa_221_NNPDF30NNLO_Zmumu_MAXHTPTV0_70_CVetoBVeto.merge.DAOD_STDM4.e5271_s2726_r7772_r7676_p2952");
+
 
   // ttbar and single top
   // Multijet
@@ -202,7 +212,7 @@ int main( int argc, char* argv[] ) {
   EL::PrunDriver driver;  //grid
 //  EL::GridDriver driver; //grid in the background
 
-  driver.options()->setString("nc_outputSampleName", "user.hson.mc15c.13TeV.DAOD_EXOT5_Zmumu_skim_v1.06092017.%in:name[2]%.%in:name[6]%"); //For PrunDriver
+  driver.options()->setString("nc_outputSampleName", "user.hson.mc15c.13TeV.DAOD_STDM4_skim_v1_test3.06122017.%in:name[2]%.%in:name[6]%"); //For PrunDriver
 //  driver.outputSampleName = "user.hson.gridtest1.11142015.%in:name[2]%.%in:name[6]%"; //For GridDriver
 //  driver.options()->setDouble("nc_nFiles", 2); // FOR TESTING!
 //  driver.options()->setDouble("nc_nFilesPerJob", 1);

@@ -312,9 +312,9 @@ EL::StatusCode vbfZnunuSkim :: initialize ()
   // Jet
   m_uncalibMonoJetPt = 100000.;
   m_monoJetPt = 100000.;
-  m_leadingJetPt = 70000.;
+  m_leadingJetPt = 40000.;
   m_subleadingJetPt = 40000.;
-  m_Mjj = 180000.;
+  m_Mjj = 150000.;
   // Lepton
   m_muonPtCut = 6000.;
 
@@ -444,6 +444,7 @@ EL::StatusCode vbfZnunuSkim :: execute ()
 
   bool passUncalibMonojetCut = false;
   bool passRecoJetCuts = false;
+  bool passTruthJetCuts = false;
 
 
   //------
@@ -455,6 +456,64 @@ EL::StatusCode vbfZnunuSkim :: execute ()
       return EL::StatusCode::SUCCESS; // go to next event
     }
   } // end if Data
+
+
+
+
+  //------------
+  // Truth Jets
+  //------------
+  if (!m_isData) {
+
+    /// full copy 
+    // get truth jet container of interest
+    const xAOD::JetContainer* m_truthJets = nullptr;
+    if ( !m_event->retrieve( m_truthJets, "AntiKt4TruthJets" ).isSuccess() ){
+      Error("execute()", "Failed to retrieve AntiKt4TruthJets container. Exiting." );
+      return EL::StatusCode::FAILURE;
+    }
+
+    /// Deep copy
+    // create the new container and its auxiliary store.
+    xAOD::JetContainer* m_truthJet = new xAOD::JetContainer();
+    xAOD::AuxContainerBase* m_truthJetAux = new xAOD::AuxContainerBase();
+    m_truthJet->setStore( m_truthJetAux ); //< Connect the two
+
+    /// shallow copy to retrive auxdata variables
+    std::pair< xAOD::JetContainer*, xAOD::ShallowAuxContainer* > truth_jet_shallowCopy = xAOD::shallowCopyContainer( *m_truthJets );
+    xAOD::JetContainer* truth_jetSC = truth_jet_shallowCopy.first;
+
+    for (const auto &jet : *truth_jetSC) {
+      xAOD::Jet* truthJet = new xAOD::Jet();
+      truthJet->makePrivateStore(*jet);
+      m_truthJet->push_back(truthJet);
+    }
+
+    delete truth_jet_shallowCopy.first;
+    delete truth_jet_shallowCopy.second;
+
+    // Sort truthJets
+    if (m_truthJet->size() > 1) std::partial_sort(m_truthJet->begin(), m_truthJet->begin()+2, m_truthJet->end(), DescendingPt());
+
+    float truthMjj = 0;
+    if (m_truthJet->size() > 1) {
+      TLorentzVector truthJet1 = m_truthJet->at(0)->p4();
+      TLorentzVector truthJet2 = m_truthJet->at(1)->p4();
+      auto truthDijet = truthJet1 + truthJet2;
+      truthMjj = truthDijet.M();
+    }
+
+    if ((m_truthJet->size() > 0 && m_truthJet->at(0)->pt() > m_monoJetPt) || (m_truthJet->size() > 1 && m_truthJet->at(0)->pt() > m_leadingJetPt && m_truthJet->at(1)->pt() > m_subleadingJetPt && truthMjj > m_Mjj)) passTruthJetCuts = true;
+
+
+    // Delete copy containers
+    delete m_truthJet;
+    delete m_truthJetAux;
+
+  } // is_MC
+
+
+
 
 
   //------------
@@ -490,7 +549,7 @@ EL::StatusCode vbfZnunuSkim :: execute ()
 
     // According to https://twiki.cern.ch/twiki/bin/viewauth/AtlasProtected/JetEtmissRecommendationsMC15
 
-    if (jets->pt() > 100000.) passUncalibMonojetCut = true;
+    if (jets->pt() > m_uncalibMonoJetPt) passUncalibMonojetCut = true;
 
     // JES calibration
     if ( !m_jetCalibration->applyCalibration(*jets).isSuccess() ){
@@ -524,8 +583,7 @@ EL::StatusCode vbfZnunuSkim :: execute ()
 
 
   // Sort recoJets
-  //if (m_recoJet->size() > 1) std::partial_sort(m_recoJet->begin(), m_recoJet->begin()+2, m_recoJet->end(), DescendingPt());
-  if (m_recoJet->size() > 1) std::sort(m_recoJet->begin(), m_recoJet->end(), DescendingPt());
+  if (m_recoJet->size() > 1) std::partial_sort(m_recoJet->begin(), m_recoJet->begin()+2, m_recoJet->end(), DescendingPt());
   
   float mjj = 0;
   if (m_recoJet->size() > 1) {
@@ -541,9 +599,11 @@ EL::StatusCode vbfZnunuSkim :: execute ()
   delete m_recoJet;
   delete m_recoJetAux;
 
-  //bool acceptEvent = passUncalibMonojetCut || passRecoJetCuts;
-  bool acceptEvent = passRecoJetCuts;
-  if(m_isData){ // it's data!
+
+
+
+  bool acceptEvent = passUncalibMonojetCut || passRecoJetCuts || passTruthJetCuts;
+  if ( !m_isData && m_dataType.find("STDM")!=std::string::npos) { // MC Derivation (STDM)
     if (!acceptEvent){
       return EL::StatusCode::SUCCESS; // go to next event
     }
