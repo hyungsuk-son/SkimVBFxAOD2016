@@ -603,11 +603,11 @@ EL::StatusCode vbfZnunuSkim :: execute ()
 
 
   bool acceptEvent = passUncalibMonojetCut || passRecoJetCuts || passTruthJetCuts;
-  if ( !m_isData && m_dataType.find("STDM")!=std::string::npos) { // MC Derivation (STDM)
-    if (!acceptEvent){
-      return EL::StatusCode::SUCCESS; // go to next event
-    }
-  } // end if Data
+  /*
+  if (!acceptEvent){
+    return EL::StatusCode::SUCCESS; // go to next event
+  }
+  */
 
 
 
@@ -692,6 +692,7 @@ EL::StatusCode vbfZnunuSkim :: execute ()
       ANA_CHECK(m_event->copy("STDMTruthNeutrinos"));
       ANA_CHECK(m_event->copy("STDMTruthMuons"));
       ANA_CHECK(m_event->copy("STDMTruthElectrons"));
+      ANA_CHECK(m_event->copy("STDMTruthPhotons"));
       ANA_CHECK(m_event->copy("STDMTruthTaus"));
       ANA_CHECK(m_event->copy("TruthParticles"));
     }
@@ -699,35 +700,39 @@ EL::StatusCode vbfZnunuSkim :: execute ()
 
   ANA_CHECK(m_event->copy("EventInfo"));
   ANA_CHECK(m_event->copy("PrimaryVertices"));
-  if ( m_dataType.find("EXOT")!=std::string::npos ) { // Derivation (EXOT)
-    ANA_CHECK(m_event->copy("Kt4EMTopoEventShape"));
-    ANA_CHECK(m_event->copy("AntiKt4EMTopoJets"));
-    ANA_CHECK(m_event->copy("Muons"));
-    ANA_CHECK(m_event->copy("Electrons"));
-    ANA_CHECK(m_event->copy("Photons"));
-    ANA_CHECK(m_event->copy("TauJets"));
-    ANA_CHECK(m_event->copy("METAssoc_AntiKt4EMTopo"));
-    ANA_CHECK(m_event->copy("MET_Core_AntiKt4EMTopo"));
-    ANA_CHECK(m_event->copy("MET_Reference_AntiKt4EMTopo"));
-    ANA_CHECK(m_event->copy("MET_LocHadTopo"));
-    ANA_CHECK(m_event->copy("egammaClusters"));
-    ANA_CHECK(m_event->copy("GSFTrackParticles"));
-    ANA_CHECK(m_event->copy("GSFConversionVertices"));
-    ANA_CHECK(m_event->copy("InDetTrackParticles"));
-    ANA_CHECK(m_event->copy("InDetForwardTrackParticles"));
-    ANA_CHECK(m_event->copy("CombinedMuonTrackParticles"));
-    ANA_CHECK(m_event->copy("ExtrapolatedMuonTrackParticles"));
-  }
+  ANA_CHECK(m_event->copy("Kt4EMTopoEventShape"));
+  ANA_CHECK(m_event->copy("AntiKt4EMTopoJets"));
+  ANA_CHECK(m_event->copy("Muons"));
+  ANA_CHECK(m_event->copy("Electrons"));
+  ANA_CHECK(m_event->copy("Photons"));
+  ANA_CHECK(m_event->copy("TauJets"));
+  ANA_CHECK(m_event->copy("METAssoc_AntiKt4EMTopo"));
+  ANA_CHECK(m_event->copy("MET_Core_AntiKt4EMTopo"));
+  ANA_CHECK(m_event->copy("MET_Reference_AntiKt4EMTopo"));
+  ANA_CHECK(m_event->copy("egammaClusters"));
+  ANA_CHECK(m_event->copy("GSFTrackParticles"));
+  ANA_CHECK(m_event->copy("GSFConversionVertices"));
+  ANA_CHECK(m_event->copy("InDetTrackParticles"));
+  ANA_CHECK(m_event->copy("InDetForwardTrackParticles"));
+  ANA_CHECK(m_event->copy("CombinedMuonTrackParticles"));
+  ANA_CHECK(m_event->copy("ExtrapolatedMuonTrackParticles"));
   ANA_CHECK(m_event->copy("xTrigDecision"));
-  //ANA_CHECK(m_event->copy("TrigNavigation"));
   ANA_CHECK(m_event->copy("TrigConfKeys"));
+  ANA_CHECK(m_event->copy("BTagging_AntiKt4EMTopo"));
+  ANA_CHECK(m_event->copy("MET_Track"));
+  ANA_CHECK(m_event->copy("MuonSegments"));
   if ( m_dataType.find("EXOT")!=std::string::npos ) { // Derivation (EXOT)
+    //ANA_CHECK(m_event->copy("TrigNavigation")); // Too big
+    ANA_CHECK(m_event->copy("MET_LocHadTopo"));
     ANA_CHECK(m_event->copy("HLT_xAOD__MuonContainer_MuonEFInfo"));
     ANA_CHECK(m_event->copy("HLT_xAOD__ElectronContainer_egamma_Electrons"));
-    ANA_CHECK(m_event->copy("BTagging_AntiKt4EMTopo"));
-    ANA_CHECK(m_event->copy("MET_Track"));
-    ANA_CHECK(m_event->copy("MuonSegments"));
   }
+  ANA_CHECK(m_event->copy("egammaTopoSeededClusters")); // For ElectronPhotonShowerShapeFudgeTool
+  //ANA_CHECK(m_event->copy("ForwardElectrons"));
+  //ANA_CHECK(m_event->copy("ForwardElectronClusters"));
+  //ANA_CHECK(m_event->copy("MuonSpectrometerTrackParticles"));
+  //ANA_CHECK(m_event->copy("JetETMissChargedParticleFlowObjects"));
+  //ANA_CHECK(m_event->copy("JetETMissNeutralParticleFlowObjects"));
 
   m_event->fill();
 

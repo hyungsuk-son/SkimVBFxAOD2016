@@ -162,7 +162,16 @@ int main( int argc, char* argv[] ) {
 
   // Sherpa diboson samples, after the EventShape bugfix (which affected p2839)
   // Zmumu
-  SH::addGrid (sh, "mc15_13TeV.364100.Sherpa_221_NNPDF30NNLO_Zmumu_MAXHTPTV0_70_CVetoBVeto.merge.DAOD_STDM4.e5271_s2726_r7772_r7676_p2952");
+  //SH::addGrid (sh, "mc15_13TeV.364100.Sherpa_221_NNPDF30NNLO_Zmumu_MAXHTPTV0_70_CVetoBVeto.merge.DAOD_STDM4.e5271_s2726_r7772_r7676_p2952");
+  //SH::addGrid (sh, "mc15_13TeV.364105.Sherpa_221_NNPDF30NNLO_Zmumu_MAXHTPTV70_140_BFilter.merge.DAOD_STDM4.e5271_s2726_r7772_r7676_p2952");
+  //SH::addGrid (sh, "mc15_13TeV.364111.Sherpa_221_NNPDF30NNLO_Zmumu_MAXHTPTV280_500_BFilter.merge.DAOD_STDM4.e5271_s2726_r7772_r7676_p2952");
+  //SH::addGrid (sh, "mc15_13TeV.364112.Sherpa_221_NNPDF30NNLO_Zmumu_MAXHTPTV500_1000.merge.DAOD_STDM4.e5271_s2726_r7772_r7676_p2952");
+  // Zee
+  SH::addGrid (sh, "mc15_13TeV.364123.Sherpa_221_NNPDF30NNLO_Zee_MAXHTPTV280_500_CVetoBVeto.merge.DAOD_STDM4.e5299_s2726_r7772_r7676_p2952");
+  SH::addGrid (sh, "mc15_13TeV.364124.Sherpa_221_NNPDF30NNLO_Zee_MAXHTPTV280_500_CFilterBVeto.merge.DAOD_STDM4.e5299_s2726_r7772_r7676_p2952");
+  SH::addGrid (sh, "mc15_13TeV.364125.Sherpa_221_NNPDF30NNLO_Zee_MAXHTPTV280_500_BFilter.merge.DAOD_STDM4.e5299_s2726_r7772_r7676_p2952");
+  SH::addGrid (sh, "mc15_13TeV.364126.Sherpa_221_NNPDF30NNLO_Zee_MAXHTPTV500_1000.merge.DAOD_STDM4.e5299_s2726_r7772_r7676_p2952");
+  SH::addGrid (sh, "mc15_13TeV.364127.Sherpa_221_NNPDF30NNLO_Zee_MAXHTPTV1000_E_CMS.merge.DAOD_STDM4.e5299_s2726_r7772_r7676_p2952");
 
 
   // ttbar and single top
@@ -212,13 +221,13 @@ int main( int argc, char* argv[] ) {
   EL::PrunDriver driver;  //grid
 //  EL::GridDriver driver; //grid in the background
 
-  driver.options()->setString("nc_outputSampleName", "user.hson.mc15c.13TeV.DAOD_STDM4_skim_v1_test3.06122017.%in:name[2]%.%in:name[6]%"); //For PrunDriver
+  driver.options()->setString("nc_outputSampleName", "user.hson.mc15c.13TeV.DAOD_STDM4_skim_v2_test.10292017.%in:name[2]%.%in:name[6]%"); //For PrunDriver
 //  driver.outputSampleName = "user.hson.gridtest1.11142015.%in:name[2]%.%in:name[6]%"; //For GridDriver
 //  driver.options()->setDouble("nc_nFiles", 2); // FOR TESTING!
 //  driver.options()->setDouble("nc_nFilesPerJob", 1);
 //  driver.options()->setDouble(EL::Job::optGridNFilesPerJob, 1);
   driver.options()->setDouble(EL::Job::optGridNGBPerJob, 6);
-  driver.options()->setDouble(EL::Job::optGridNGBPerMergeJob, 2);
+  driver.options()->setDouble(EL::Job::optGridNGBPerMergeJob, 3);
 //  driver.options()->setString("nc_excludedSite", "ANALY_INFN-NAPOLI-RECAS,ANALY_INFN-NAPOLI,ANALY_DESY-HH,ANALY_GRIF-IRFU,ANALY_AUSTRALIA,ANALY_SFU,ANALY_SCINET,ANALY_CPPM,ANALY_SiGNET,ANALY_LPC,ANALY_NSC,ANALY_CONNECT,ANALY_MWT2_SL6,ANALY_BU_ATLAS_Tier2_SL6,ANALY_wuppertalprod,ANALY_ARNES,ANALY_SLAC_SHORT_1HR,ANALY_SLAC,ANALY_RAL_SL6,ANALY_INFN-MILANO-ATLASC");
 //  driver.options()->setString("nc_excludedSite", "ANALY_BNL_LONG,ANALY_LRZ,ANALY_FZK_SHORT,ANALY_SiGNET,ANALY_DESY-ZN,ANALY_FZK,ANALY_LPC,ANALY_TRIUMF,ANALY_GLASGOW_SL6");
 
