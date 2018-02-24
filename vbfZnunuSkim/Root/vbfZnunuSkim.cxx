@@ -26,6 +26,7 @@
 #include "xAODCore/ShallowCopy.h"
 #include "xAODCore/AuxContainerBase.h"
 
+#include <SampleHandler/MetaNames.h>
 
 struct DescendingPt:std::function<bool(const xAOD::IParticle*, const xAOD::IParticle*)> {
   bool operator()(const xAOD::IParticle* l, const xAOD::IParticle* r)  const {
@@ -137,6 +138,9 @@ EL::StatusCode vbfZnunuSkim :: fileExecute ()
     m_isData = false; // can do something with this later
   }
 
+  // Retrieve the Dataset name
+  m_nameDataset = wk()->metaData()->castString (SH::MetaNames::sampleName());
+  std::cout << " Dataset name = " << m_nameDataset << std::endl;
 
   // Event Bookkeepers
   // https://twiki.cern.ch/twiki/bin/view/AtlasProtected/AnalysisMetadata#Luminosity_Bookkeepers
@@ -342,7 +346,13 @@ EL::StatusCode vbfZnunuSkim :: initialize ()
 
   // GRL
   m_grl = new GoodRunsListSelectionTool("GoodRunsListSelectionTool");
-  const char* GRLFilePath = "$ROOTCOREBIN/data/vbfZnunuSkim/data16_13TeV.periodAllYear_DetStatus-v88-pro20-21_DQDefects-00-02-04_PHYS_StandardGRL_All_Good_25ns.xml";
+  const char* GRLFilePath;
+  if ( m_nameDataset.find("data15")!=std::string::npos ) { // For 2015 Data
+    GRLFilePath = "$ROOTCOREBIN/data/vbfZnunuSkim/data15_13TeV.periodAllYear_DetStatus-v79-repro20-02_DQDefects-00-02-02_PHYS_StandardGRL_All_Good_25ns.xml";
+  }
+  if ( m_nameDataset.find("data16")!=std::string::npos ) { // For 2016 Data
+    GRLFilePath = "$ROOTCOREBIN/data/vbfZnunuSkim/data16_13TeV.periodAllYear_DetStatus-v88-pro20-21_DQDefects-00-02-04_PHYS_StandardGRL_All_Good_25ns.xml";
+  }
   const char* fullGRLFilePath = gSystem->ExpandPathName (GRLFilePath);
   std::vector<std::string> vecStringGRL;
   vecStringGRL.push_back(fullGRLFilePath);

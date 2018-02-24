@@ -51,12 +51,12 @@ int main( int argc, char* argv[] ) {
   //SH::ScanDir().filePattern("DAOD_EXOT5.07992821._00000*").scan(sh,inputFilePath);
 
 
-  // Data16
-  //const char* inputFilePath = gSystem->ExpandPathName ("/cluster/tufts/atlas08/DATA");
-  //SH::ScanDir().filePattern("DAOD_EXOT5.10316590._000203.pool.root.1").scan(sh,inputFilePath); // Data16 run311481
- 
+  // Data15
+  const char* inputFilePath = gSystem->ExpandPathName ("/cluster/tufts/atlas09/hson02/Dataset/Data/derivation");
+  SH::ScanDir().filePattern("DAOD_EXOT5.10298531._000*").scan(sh,inputFilePath); // 284484 (random 10 files)
+
   // MC15c (EXOT5)
-  const char* inputFilePath = gSystem->ExpandPathName ("/cluster/tufts/atlas08/MCSamples");
+  //const char* inputFilePath = gSystem->ExpandPathName ("/cluster/tufts/atlas08/MCSamples");
   //SH::ScanDir().filePattern("DAOD_EXOT5.10531595._000002.pool.root.1").scan(sh,inputFilePath); // Znunu_MAXHTPTV280_500_CFilterBVeto
   //SH::ScanDir().filePattern("DAOD_EXOT5.10531581._000001.pool.root.1").scan(sh,inputFilePath); // Zee_MAXHTPTV140_280_BFilter
   //SH::ScanDir().filePattern("DAOD_EXOT5.09043234._000006.pool.root.1").scan(sh,inputFilePath); // 410000.PowhegPythiaEvtGen_P2012_ttbar_hdamp172p5_nonallhad
@@ -65,7 +65,7 @@ int main( int argc, char* argv[] ) {
 
   // MC15c (STDM4)
   //SH::ScanDir().filePattern("DAOD_STDM4.10349557._000034.pool.root.1").scan(sh,inputFilePath); // 364109.Zmumu_MAXHTPTV280_500_CVetoBVeto
-  SH::ScanDir().filePattern("DAOD_STDM4.10348687._000027.pool.root.1").scan(sh,inputFilePath); // 364123.Zee_MAXHTPTV280_500_CVetoBVeto
+  //SH::ScanDir().filePattern("DAOD_STDM4.10348687._000027.pool.root.1").scan(sh,inputFilePath); // 364123.Zee_MAXHTPTV280_500_CVetoBVeto
 
   // Set the name of the input TTree. It's always "CollectionTree"
   // for xAOD files.

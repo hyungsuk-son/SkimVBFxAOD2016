@@ -61,6 +61,7 @@ public:
 
   xAOD::TEvent *m_event; //!
   bool m_isData; //!
+  std::string m_nameDataset; //!
   std::string m_dataType; //!
   std::string m_nameDerivation; //!
 
